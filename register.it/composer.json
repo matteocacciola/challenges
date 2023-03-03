@@ -1,0 +1,20 @@
+{
+    "name": "exercise/register_it",
+    "description": "Esercizio proposto da Register.it",
+    "keywords": [
+        "register.it"
+    ],
+    "license": "MIT",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "hassankhan/config": "^3.0",
+        "symfony/yaml": "^5.4"
+    }
+}

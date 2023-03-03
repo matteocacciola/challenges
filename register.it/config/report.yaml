@@ -1,0 +1,6 @@
+report:
+    source: file
+    format: csv
+    destination:
+        folder: '%public_path%/reports'
+        prefix: ipaddr
