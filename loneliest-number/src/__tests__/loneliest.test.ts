@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {loneliestNumber} from "../loneliest";
+import {loneliestNumber} from '../loneliest';
 
 describe('loneliest', () => {
   it.each([
