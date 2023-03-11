@@ -2,6 +2,7 @@
 
 This is a repository containing the solutions to different challenges, time by time approached in my free time.
 
+- [Boolean to String](boolean_to_string/README.md)
 - [Change directory](change_directory_abstract_filesystem/README.md)
 - [Count Vowels](count_vowels/README.md)
 - [Describe Function](describe-function/README.md)
