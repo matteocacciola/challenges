@@ -2,11 +2,11 @@ import {describe, expect, it} from 'vitest';
 import {pizzaRewards, PizzaRewardsInput} from '../pizza-rewards';
 
 const setsEqual = <T>(s1: Set<T>, s2: Set<T>): boolean => {
-    return arraysEqual(Array.from(s1.keys()).sort(), Array.from(s2.keys()).sort());
+  return arraysEqual(Array.from(s1.keys()).sort(), Array.from(s2.keys()).sort());
 };
 
 const arraysEqual = <T>(a1: T[], a2: T[]): boolean => {
-    return a1.length == a2.length && !a1.find((v1, index) => v1 !== a2[index]);
+  return a1.length == a2.length && !a1.find((v1, index) => v1 !== a2[index]);
 };
 
 const cases = [
