@@ -1,0 +1,17 @@
+{
+    "name": "matteocacciola/percentage_zone_covered_shoppers",
+    "autoload": {
+        "psr-4": {
+            "DataMat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Matteo Cacciola",
+            "email": "matteo.cacciola@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    }
+}

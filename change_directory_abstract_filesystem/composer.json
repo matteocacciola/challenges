@@ -1,0 +1,17 @@
+{
+    "name": "matteocacciola/change_directory_abstract_filesystem",
+    "autoload": {
+        "psr-4": {
+            "DataMat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Matteo Cacciola",
+            "email": "matteo.cacciola@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    }
+}
