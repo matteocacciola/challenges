@@ -1,12 +1,5 @@
 # TheFork backend test v1.1
-
-**Please don't communicate this test nor your implementation publicly**
-(even if you're very proud of it)
-
-- You probably prefer your future team mates to write their own implemention than copy yours
-- It saves us the hassle of updating this test too frequently
-
-Thanks !
+This is the NodeJS code prepared by myself for the code challenge proposed by TheFork during their selection process.
 
 ## Goal
 Creation of a graphql API in NodeJS.
