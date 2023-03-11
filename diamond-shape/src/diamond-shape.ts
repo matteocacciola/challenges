@@ -14,4 +14,4 @@ export const diamondShape = (n: number): string | null => {
   }
 
   return diamond;
-}
+};

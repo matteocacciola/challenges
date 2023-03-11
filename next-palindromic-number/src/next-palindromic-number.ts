@@ -7,7 +7,7 @@ const prepare = (num: number) => {
   }
 
   return digits;
-}
+};
 
 const processDigit = (digits: number[], i: number, carriage: number) => {
   const digitsLength = digits.length;
@@ -24,7 +24,7 @@ const processDigit = (digits: number[], i: number, carriage: number) => {
   digits[i] = digits[digitsLength - 1 - i] = digit;
 
   return { digits, carriage };
-}
+};
 
 export const nextPalindrome = (input: number): number => {
   let digits = prepare(input);
@@ -38,4 +38,4 @@ export const nextPalindrome = (input: number): number => {
   }
 
   return digits.reduce((acc, next) => 10 * acc + next, 0);
-}
+};

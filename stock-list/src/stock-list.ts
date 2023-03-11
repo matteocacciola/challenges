@@ -1,12 +1,15 @@
+type CategorySums = {
+  [name: string]: number;
+};
+
 export const stockList = (listOfBooks: string[], categories: string[]): string => {
   if (listOfBooks.length === 0 || categories.length === 0) {
     return '';
   }
 
-  const categorySums = {};
+  const categorySums: CategorySums = {};
 
-  for (const book of listOfBooks) {
-    const [code, quantityStr] = book.split(' ');
+  for (const book of listOfBooks) {const [code, quantityStr] = book.split(' ');
     const category = code[0];
 
     if (categories.includes(category)) {
@@ -16,4 +19,4 @@ export const stockList = (listOfBooks: string[], categories: string[]): string =
   }
 
   return categories.map((category) => `(${category} : ${categorySums[category] || 0})`).join(" - ");
-}
+};

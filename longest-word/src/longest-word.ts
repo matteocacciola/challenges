@@ -7,4 +7,4 @@ export const longestWord = (input: string): string => {
     }
   }
   return longestWord;
-}
+};

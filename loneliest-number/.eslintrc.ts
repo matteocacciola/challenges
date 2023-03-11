@@ -6,7 +6,8 @@ export default {
   },
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    'prettier'
   ],
   overrides: [],
   parser: '@typescript-eslint/parser',
@@ -19,6 +20,9 @@ export default {
     '@typescript-eslint'
   ],
   rules: {
+    '@typescript-eslint/no-unused-vars': 'error',
+    // to enforce using type for object type definitions, can be type or interface
+    '@typescript-eslint/consistent-type-definitions': [ 'error', 'type' ],
     indent: [ 'error', 2 ],
     quotes: [ 'error', 'single' ],
     semi: [ 'error', 'always' ]
