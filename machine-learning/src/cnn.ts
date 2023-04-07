@@ -62,9 +62,6 @@ export class ConvolutionaNeuralNetwork {
 
   private addPoolLayer(layerConfig: LayerConfig): layers.Layer {
     const { poolSize, poolStrides: strides } = layerConfig;
-    if (!poolSize || !strides) {
-      throw new Error('Missing parameters for pool layer');
-    }
     return layers.maxPooling2d({ poolSize, strides });
   }
 
