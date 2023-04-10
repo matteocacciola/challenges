@@ -1,15 +1,4 @@
-import {
-  layers,
-  LayersModel,
-  ModelFitArgs,
-  History,
-  sequential,
-  Tensor,
-  tidy,
-  Tensor1D,
-  data,
-  oneHot
-} from '@tensorflow/tfjs';
+import { layers, LayersModel, ModelFitArgs, History, sequential, Tensor, tidy, Tensor1D } from '@tensorflow/tfjs';
 import { ActivationIdentifier } from '@tensorflow/tfjs-layers/dist/keras_format/activation_config';
 
 enum LayerConfigEnum {
@@ -105,15 +94,17 @@ export class ConvolutionaNeuralNetwork {
   }
 }
 
-// EXAMPLE OF USAGE
-/*
-Here we use the MNIST dataset. It is a popular benchmark dataset in the field of machine learning and computer vision.
-It consists of a set of 70,000 small images of handwritten digits, divided into 60,000 training examples and 10,000
-test examples. Each image is grayscale and has a resolution of 28 x 28 pixels. The goal of the MNIST dataset is to
-classify the digit in each image correctly, with a high degree of accuracy. The dataset has been widely used to develop
-and test various machine learning algorithms, including deep neural networks, and has played a key role in advancing the
-field of computer vision.
- */
+/**
+ * EXAMPLE OF USAGE
+ *
+ * Here we use the MNIST dataset. It is a popular benchmark dataset in the field of machine learning and computer vision.
+ * It consists of a set of 70,000 small images of handwritten digits, divided into 60,000 training examples and 10,000
+ * test examples. Each image is grayscale and has a resolution of 28 x 28 pixels. The goal of the MNIST dataset is to
+ * classify the digit in each image correctly, with a high degree of accuracy. The dataset has been widely used to develop
+ * and test various machine learning algorithms, including deep neural networks, and has played a key role in advancing the
+ * field of computer vision.
+
+import { data, oneHot } from '@tensorflow/tfjs';
 
 const TRAIN_DATA_URL = 'https://storage.googleapis.com/cvdf-datasets/mnist/train.csv';
 const TEST_DATA_URL = 'https://storage.googleapis.com/cvdf-datasets/mnist/test.csv';
@@ -179,3 +170,5 @@ const loadMnistData = async (): Promise<[Tensor, Tensor, Tensor, Tensor]> => {
   const testAccuracy = cnn.evaluate(xTest);
   console.log(`Test accuracy: ${testAccuracy}`);
 })();
+
+ */
