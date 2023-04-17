@@ -5,10 +5,11 @@ This is the NodeJS code prepared by myself for the code challenge proposed by Th
 Creation of a graphql API in NodeJS.
 
 ## Context
-The purpose of this project is to create a simple graphQL API in charge of exposing Restaurant information fetched from an external service (`image-service`) and from a local database.
+The purpose of this project is to create a simple graphQL API in charge of exposing Restaurant information fetched from
+an external service (`image-service`) and from a local database.
 
 ### Infrastructure
-Infrastructure is available in the [docker-compose file](./docker-compose.yml) and composed as follow:
+Infrastructure is available in the [docker-compose file](./docker-compose.yml) and composed as follows:
  - a NodeJs GraphQL micro-service ([restaurant-service](./restaurant-service)) You can use the playground to test it http://localhost:3000/graphql
  - a PostgreSQL database
  - a REST micro-service ([image-service](./image-service))

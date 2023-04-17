@@ -7,6 +7,7 @@ This is a repository containing the solutions to different challenges, time by t
 - [Count Vowels](count_vowels/README.md)
 - [Describe Function](describe-function/README.md)
 - [Diamond Shape string](diamond-shape/README.md)
+- [Klarna](klarna/README.md)
 - [Loneliest number](loneliest-number/README.md)
 - [Longest Word](loneliest-number/README.md)
 - [Next Palindromic Number](next-palindromic-number/README.md)
