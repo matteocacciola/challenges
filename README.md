@@ -3,7 +3,6 @@
 This is a repository containing the solutions to different challenges, time by time approached in my free time.
 
 - [Boolean to String](boolean_to_string/README.md)
-- [Canonical DevSkiller](canonical/README.md)
 - [Change directory](change_directory_abstract_filesystem/README.md)
 - [Count Vowels](count_vowels/README.md)
 - [Describe Function](describe-function/README.md)
@@ -15,6 +14,7 @@ This is a repository containing the solutions to different challenges, time by t
 - [Obfuscate Phone Number](obfuscate-phone-number/README.md)
 - [Percentage of the zone covered by shoppers](percentage_zone_covered_shoppers/README.md)
 - [Pizza Rewards](pizza_rewards/README.md)
+- [Polish Notation Calculator - Canonical DevSkiller](canonical/README.md)
 - [Prime number](prime_number/README.md)
 - [Rank players](rank_players/README.md)
 - [Register.it](register.it/README.md)
