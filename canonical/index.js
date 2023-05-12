@@ -1,5 +1,5 @@
 const prompt = require("prompt")
-const calculator = require("./app/calculator");
+const calculator = require("./app/v1/calculator");
 
 console.log(
   "Alternative calculator\n===\n\n" +

@@ -2,7 +2,7 @@
   "name": "alternative-calculator",
   "version": "1.0.0",
   "description": "",
-  "main": "app/calculator.js",
+  "main": "app/v1/calculator.js",
   "scripts": {
     "start": "nodejs index.js",
     "test": "mocha test/**"
