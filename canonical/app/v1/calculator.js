@@ -5,7 +5,7 @@ const operations = {
   '/': (operand1, operand2) => operand1 / operand2
 };
 
-const isNumeric = (expression) => /^-?\d+$/.test(expression);
+const isNumeric = (expression) => /^-?\d+\.?\d*$/.test(expression);
 
 const operation = (operator, operand1, operand2) => {
   if (!/[+\-*/]/.test(operator)) {
