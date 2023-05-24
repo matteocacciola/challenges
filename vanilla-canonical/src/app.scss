@@ -1,0 +1,22 @@
+@import "vanilla-framework";
+@include vanilla;
+
+.container {
+    padding-top: 30px;
+
+    & .hide {
+        display: none;
+    }
+
+    .u-padded__x {
+        width: 95%;
+        margin: 0 auto !important;
+    }
+
+    .p-card-image__padded {
+        margin-top: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+        width: calc(100% - 40px);
+    }
+}

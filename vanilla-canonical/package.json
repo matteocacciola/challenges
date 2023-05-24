@@ -1,0 +1,24 @@
+{
+  "name": "vanilla-canonical",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "npm run build && npm run build-css && http-server -a localhost -o --cors",
+    "build": "webpack",
+    "build-css": "sass --load-path=node_modules src:public/css --style=compressed",
+    "watch-css": "sass -w --load-path=node_modules src:public/css --style=compressed"
+  },
+  "devDependencies": {
+    "css-loader": "^6.7.4",
+    "http-server": "^14.1.1",
+    "node-sass": "^9.0.0",
+    "sass": "^1.62.1",
+    "sass-loader": "^13.3.0",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.83.1",
+    "webpack-cli": "^5.1.1"
+  },
+  "dependencies": {
+    "vanilla-framework": "^3.14.0"
+  }
+}
