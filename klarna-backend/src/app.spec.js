@@ -1,11 +1,11 @@
 const request = require("supertest");
 const app = require("./app");
-
-const service = require("./credit-decision/service.js");
+const { StatusCodes } = require("http-status-codes");
+const { purchaseAmountLimit, customerDebtLimit } = require("./helpers/constants");
 
 const DECISION_PATH = "/decision";
-const MAX_ALLOWED_DEBT = 100;
-const MAX_ALLOWED_AMOUNT = service.purchaseAmountLimit;
+const MAX_ALLOWED_DEBT = customerDebtLimit;
+const MAX_ALLOWED_AMOUNT = purchaseAmountLimit;
 
 const requestFixture = req =>
   Object.assign(
@@ -31,7 +31,7 @@ describe("Credit decision app", () => {
     describe("When the customer should be accepted", () => {
       it("Responds with an accepted credit decision", async () => {
         return requestCreditDecision()
-          .expect(201)
+          .expect(StatusCodes.CREATED)
           .then(response => {
             expect(response.body.accepted).toBe(true);
           });
@@ -43,7 +43,7 @@ describe("Credit decision app", () => {
         return requestCreditDecision(
           requestFixture({ amount: MAX_ALLOWED_AMOUNT + 1 })
         )
-          .expect(200)
+          .expect(StatusCodes.OK)
           .then(response => {
             expect(response.body.accepted).toBe(false);
             expect(response.body.reason).toBe("amount");
@@ -59,11 +59,11 @@ describe("Credit decision app", () => {
           index++
         ) {
           await requestCreditDecision()
-            .expect(201)
+            .expect(StatusCodes.CREATED)
             .then(response => expect(response.body.accepted).toBe(true));
         }
         return requestCreditDecision()
-          .expect(200)
+          .expect(StatusCodes.OK)
           .then(response => {
             expect(response.body.accepted).toBe(false);
             expect(response.body.reason).toBe("debt");
@@ -79,7 +79,7 @@ describe("Credit decision app", () => {
           const requestEntity = requestFixture();
           requestEntity[field] = undefined;
           return requestCreditDecision(requestEntity)
-            .expect(400)
+            .expect(StatusCodes.BAD_REQUEST)
             .then(response => {
               expect(response.body.message).toBe("validation error");
               expect(response.body.errors[0].field[0]).toBe(field);

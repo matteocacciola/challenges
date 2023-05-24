@@ -8,6 +8,7 @@ db.mockImplementation(() => ({
 }));
 
 const { getByEmail, increaseByEmail } = require("./model");
+const { StatusCodes } = require("http-status-codes");
 
 describe("Credit debt model", () => {
   describe("Get by email", () => {
@@ -27,7 +28,7 @@ describe("Credit debt model", () => {
   describe("Increase by email", () => {
     it("Should add the amount on top of the existing debt", async () => {
       const email = "existingcustomer@gmail.com";
-      const existingDebt = 200;
+      const existingDebt = StatusCodes.OK;
       const amount = 100;
       findByEmailMock.mockReturnValueOnce(
         new Promise(resolve => resolve(existingDebt))

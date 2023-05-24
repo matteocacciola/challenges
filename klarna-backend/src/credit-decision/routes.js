@@ -4,15 +4,15 @@ const jsonParser = require("body-parser").json();
 const validate = require("express-validation");
 const schema = require("./schema");
 const deserialize = require("../lib/middleware/to-camel-case");
-const { getCreditDecision } = require("./controller");
+const { StatusCodes } = require("http-status-codes");
+const { getDecision } = require("./service");
 
-router.use(jsonParser);
-router.use(validate({ body: schema }));
-router.use(deserialize);
+router.use([jsonParser, validate({ body: schema }), deserialize]);
+
 router.post("/", async (req, res) => {
-  const creditRequest = req.body;
-  const decision = await getCreditDecision(creditRequest);
-  return res.status(decision.accepted ? 201 : 200).json(decision);
+  const { amount, email } = req.body;
+  const decision = await getDecision(amount, email);
+  return res.status(decision.accepted ? StatusCodes.CREATED : StatusCodes.OK).json(decision);
 });
 
 module.exports = router;

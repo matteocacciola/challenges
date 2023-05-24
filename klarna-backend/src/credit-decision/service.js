@@ -1,11 +1,6 @@
 const { ACCEPTED, DEBT, MAX_AMOUNT_BREACH } = require("./decision");
 const { getByEmail: getCustomerDebt, increaseByEmail: increaseCustomerDebt } = require("./model");
-
-const CUSTOMER_DEBT_LIMIT = 100;
-const PURCHASE_AMOUNT_LIMIT = 20;
-
-const makeDecisionUsingPreliminaryConditions = purchaseAmount =>
-  purchaseAmount > PURCHASE_AMOUNT_LIMIT ? MAX_AMOUNT_BREACH : undefined;
+const { customerDebtLimit, purchaseAmountLimit } = require("../helpers/constants");
 
 const makeDecisionBasedOnCustomerDebt = (purchaseAmount, currentCustomerDebt) =>
   isDebtLimitGoingToBeExceeded(purchaseAmount, currentCustomerDebt)
@@ -13,16 +8,10 @@ const makeDecisionBasedOnCustomerDebt = (purchaseAmount, currentCustomerDebt) =>
     : ACCEPTED;
 
 const isDebtLimitGoingToBeExceeded = (purchaseAmount, currentCustomerDebt) =>
-  currentCustomerDebt + purchaseAmount > CUSTOMER_DEBT_LIMIT;
-
-const makeCreditDecision = (purchaseAmount, currentCustomerDebt) =>
-  makeDecisionUsingPreliminaryConditions(purchaseAmount) ||
-  makeDecisionBasedOnCustomerDebt(purchaseAmount, currentCustomerDebt);
+  currentCustomerDebt + purchaseAmount > customerDebtLimit;
 
 const isAmountGreaterThanLimit = (purchaseAmount) =>
-    purchaseAmount > PURCHASE_AMOUNT_LIMIT;
-
-module.exports.purchaseAmountLimit = PURCHASE_AMOUNT_LIMIT;
+    purchaseAmount > purchaseAmountLimit;
 
 module.exports.getDecision = async (amount, email) => {
     if (isAmountGreaterThanLimit(amount)) {
@@ -30,7 +19,7 @@ module.exports.getDecision = async (amount, email) => {
     }
 
     const customerDebt = await getCustomerDebt(email);
-    const decision = makeCreditDecision(amount, customerDebt);
+    const decision = makeDecisionBasedOnCustomerDebt(amount, customerDebt);
 
     if (decision.accepted) {
         await increaseCustomerDebt(email, amount);

@@ -8,5 +8,4 @@ const increaseByEmail = async (email, amount) => {
   return await db.setByEmail(email, newCustomerDebt);
 };
 
-module.exports.getByEmail = getByEmail;
-module.exports.increaseByEmail = increaseByEmail;
+module.exports = { getByEmail, increaseByEmail };
