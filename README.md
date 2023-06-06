@@ -2,6 +2,7 @@
 
 This is a repository containing the solutions to different challenges, time by time approached in my free time.
 
+- [Andela](andela/README.md)
 - [Boolean to String](boolean-to-string/README.md)
 - [Canonical Vanilla-Framework](vanilla-canonical/README.md)
 - [Change directory](change-directory-abstract-filesystem/README.md)
