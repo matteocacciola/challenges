@@ -1,0 +1,38 @@
+# Node.js
+node_modules/
+
+# Output delle build
+dist/
+build/
+
+# File di configurazione
+.env
+
+# File di log
+logs/
+*.log
+
+# File temporanei
+*.tmp
+
+# Cache
+.cache/
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Configurazione di Visual Studio Code
+.vscode/
+
+# Configurazione di WebStorm
+.idea/
+
+# File di backup
+*.bak
+*.backup
+*.swp
+
+# File di sistema
+.DS_Store
+Thumbs.db
