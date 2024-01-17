@@ -1,16 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { LessThan, Like, MoreThanOrEqual, Repository } from 'typeorm';
+import { LessThan, Like, MoreThanOrEqual, DataSource } from 'typeorm';
+import { Repository } from './repository';
 import { Track } from '../entities';
 import { GetTracksInput } from '../inputs/track.input';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class TrackRepository extends Repository<Track> {
-  constructor(
-    @InjectRepository(Track)
-    repository: Repository<Track>,
-  ) {
-    super(repository.target, repository.manager, repository.queryRunner);
+  constructor(dataSource: DataSource) {
+    super(Track, dataSource);
   }
 
   async findTracksByArtistIds(artistIds: readonly number[]): Promise<Track[]> {
