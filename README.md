@@ -9,6 +9,7 @@ This is a repository containing the solutions to different challenges, time by t
 - [Count Vowels](count-vowels/README.md): implementation in Typescript of a solution to the following problem. Write a function that returns the number (count) of vowels in a given string. Letters considered as vowels are: a, i, e, o, and u. The function should be able to take all types of characters as input, including lower case letters, upper case letters, symbols, and numbers.
 - [Describe Function](describe-function/README.md): implementing a Typescript function, calcType, taking two numbers and an unknown operation result. Return the corresponding operation string (+, -, *, /).
 - [Diamond Shape string](diamond-shape/README.md): implementing a function in Typescript able to return a string that displays a diamond shape on the screen using asterisk (“*”) characters.
+- [HackerRank - Arrays](hackerrank/arrays/README.md): solutions, in Python or Typescript, about some problems related to Arrays.
 - [Klarna (Preliminary)](klarna/README.md): Node.Js methods implementing two algorithms: the former, able to calculate the balance in each requested category within the specified time period, the latter, aiming to find similar transactions and categorize them if possible.
 - [Klarna (Frontend)](klarna-frontend/README.md): adjusting Facewall, a bugged application written in ReactJs.
 - [Klarna (Backend)](klarna-backend/README.md): a simple service in Node.js for making credit decisions based on purchase amount and total outstanding debt.
