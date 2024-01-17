@@ -3,6 +3,7 @@
 This is a repository containing the solutions to different challenges, time by time approached in my free time.
 
 - [Andela](andela/README.md): some basic PHP tasks working with files and mathematical functions.
+- **Aptus.ai**: a Typescript function able to return the "leaders" in an array, i.e. the elements that are greater than all the elements to their right.
 - [Boolean to String](boolean-to-string/README.md): a very basic challenge in Node.js aiming to mplement a function which will convert the given boolean value into its string representation.
 - [Canonical Vanilla-Framework](vanilla-canonical/README.md): a frontend task in Vanilla Javascript submitted for Canonical.
 - [Change directory](change-directory-abstract-filesystem/README.md): the test is proposed on TestDome, asking to write a function that provides change directory (cd) function for an abstract file system.
@@ -15,7 +16,7 @@ This is a repository containing the solutions to different challenges, time by t
 - [Klarna (Backend)](klarna-backend/README.md): a simple service in Node.js for making credit decisions based on purchase amount and total outstanding debt.
 - [Loneliest number](loneliest-number/README.md): implementing the Loneliest number problem in Typescript. Each digit's range of vision is its own value, and the loneliness is the sum of visible digits. The function identifies the loneliest number in the given non-negative integer.
 - [Longest Word](loneliest-number/README.md): implementation in Typescript of the test able to find the longest word in a string, where a word can be composed by letters and/or numbers.
-- [Matrix]: implementation of a class, in PHP and Typescript, able to manage matrices.
+- **Matrix**: implementation of a class, in PHP and Typescript, able to manage matrices.
 - [Next Palindromic Number](next-palindromic-number/README.md): implementation in Typescript of the test able to find the next palindromic number, given a positive integer For example: if num is 24, then your program should return 33 because that is the next largest number that is a palindrome.
 - [Obfuscate Phone Number](obfuscate-phone-number/README.md): this is a solution in Typescript to the following problem. write a function that encrypts phone numbers. The method should hide the last six digits of each phone number.
 - [Percentage of the zone covered by shoppers](percentage_zone_covered_shoppers/README.md): implementation in PHP of a code aiming to calculate the percentage of the zone covered by enabled shoppers.
