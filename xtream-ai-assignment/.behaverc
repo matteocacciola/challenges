@@ -1,0 +1,6 @@
+[behave]
+paths = tests
+log_capture = false
+stdout_capture = false
+show_multiline = false
+stop = true

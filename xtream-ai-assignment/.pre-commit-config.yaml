@@ -1,0 +1,29 @@
+default_stages: [commit, push]
+repos:
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+        args: [--line-length=120, -vvv]
+        language: python
+        types: [ 'python' ]
+        exclude: ^(venv\/|docs\/|tests\/steps\/|.pytest_cache\/|train\/).+$
+        stages: [ commit ]
+        fail_fast: true
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=1536']
+        language: python
+        exclude: ^(.*?models\/).*$
+        fail_fast: true
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: make lint
+        language: python
+        types: [ python ]
+        stages: [ commit ]
+        exclude: ^(venv\/|.pytest_cache\/|static\/|logs\/|__nltkdata__\/|demos\/).+$

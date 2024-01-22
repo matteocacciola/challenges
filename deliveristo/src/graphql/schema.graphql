@@ -1,0 +1,43 @@
+type Query {
+    users: [User]
+    restaurants(userId: ID!): [Restaurant]
+}
+
+type Mutation {
+    login(username: String!, password: String!): AuthPayload
+    createProduct(name: String!, price: Float!): Product
+    addToCart(userId: ID!, productId: ID!): Cart
+}
+
+type Subscription {
+    cartUpdated(cartId: ID!): Cart
+}
+
+type User {
+    id: ID!
+    username: String!
+    restaurants: [Restaurant]
+}
+
+type Restaurant {
+    id: ID!
+    name: String!
+    user: User
+}
+
+type Product {
+    id: ID!
+    name: String!
+    price: Float!
+}
+
+type Cart {
+    id: ID!
+    restaurant: Restaurant
+    products: [Product]
+}
+
+type AuthPayload {
+    token: String
+    user: User
+}

@@ -1,0 +1,14 @@
+behave
+coverage
+fastapi
+httpx
+joblib
+libsvm
+pandas
+pre-commit
+pydantic
+pydantic-numpy
+pylint
+scikit-learn==1.2.2
+uvicorn
+validators

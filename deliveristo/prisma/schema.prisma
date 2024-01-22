@@ -1,0 +1,46 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  username    String       @unique
+  password    String
+  restaurants Restaurant[]
+
+  @@map("users")
+}
+
+model Restaurant {
+  id     Int    @id @default(autoincrement())
+  name   String
+  userId Int
+  user   User   @relation(fields: [userId], references: [id])
+  carts  Cart[]
+
+  @@map("restaurants")
+}
+
+model Product {
+  id    Int    @id @default(autoincrement())
+  name  String
+  price Float
+  carts Cart[]
+
+  @@map("products")
+}
+
+model Cart {
+  id           Int        @id @default(autoincrement())
+  restaurantId Int        @unique // Enforce unique constraint
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  status       String
+  products     Product[]
+
+  @@map("carts")
+}
