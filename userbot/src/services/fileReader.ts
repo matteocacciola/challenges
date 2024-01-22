@@ -29,36 +29,22 @@ export class FileReader {
     }
 
     private static async readRemoteFile(fileUrl: string, isSecure: boolean): Promise<string> {
+        const protocol = isSecure ? https : http;
+
         return new Promise((resolve, reject) => {
-            if (isSecure) {
-                https.get(fileUrl, (response) => {
-                    let data = "";
+            protocol.get(fileUrl, (response) => {
+                let data = "";
 
-                    response.on("data", (chunk) => {
-                        data += chunk;
-                    });
-
-                    response.on("end", () => {
-                        resolve(data);
-                    });
-                }).on("error", (error) => {
-                    reject(error);
+                response.on("data", (chunk) => {
+                    data += chunk;
                 });
-            } else {
-                http.get(fileUrl, (response) => {
-                    let data = "";
 
-                    response.on("data", (chunk) => {
-                        data += chunk;
-                    });
-
-                    response.on("end", () => {
-                        resolve(data);
-                    });
-                }).on("error", (error) => {
-                    reject(error);
+                response.on("end", () => {
+                    resolve(data);
                 });
-            }
+            }).on("error", (error) => {
+                reject(error);
+            });
         });
     }
 }
