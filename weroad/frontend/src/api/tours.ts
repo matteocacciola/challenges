@@ -7,7 +7,9 @@ export default {
     startingDate: Date,
     endingDate: Date,
     price: number,
+    currency?: string,
   ) {
+    currency = currency ?? 'EUR';
     const response = await api({
       query: `
         mutation CreateTour {
@@ -17,14 +19,16 @@ export default {
               name: "${name}"
               startingDate: "${startingDate.toISOString()}"
               endingDate: "${endingDate.toISOString()}"
-              price: ${price}
+              price: ${price},
+              currency: "${currency}"
             }
           ) {
             id,
             name,
             startingDate,
             endingDate,
-            price
+            price,
+            currency
           }
         }
       `,
@@ -38,8 +42,10 @@ export default {
     startingDate?: Date,
     endingDate?: Date,
     price?: number,
+    currency?: string,
   ) {
     name = name ? `"${name}"` : null;
+    currency = currency ?? "EUR";
     const startingDateString = startingDate
       ? `"${startingDate.toISOString()}"`
       : null;
@@ -56,14 +62,16 @@ export default {
               name: ${name}
               startingDate: ${startingDateString}
               endingDate: ${endingDateString}
-              price: ${price}
+              price: ${price},
+              currency: "${currency}"
             }
           ) {
             id,
             name,
             startingDate,
             endingDate,
-            price
+            price,
+            currency
           }
         }
       `,
@@ -129,7 +137,8 @@ export default {
               name,
               startingDate,
               endingDate,
-              price
+              price,
+              currency
             }
             totalItems
           }
@@ -153,7 +162,8 @@ export default {
             name,
             startingDate,
             endingDate,
-            price
+            price,
+            currency
           }
         }
       `,

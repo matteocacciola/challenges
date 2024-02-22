@@ -16,6 +16,9 @@ export class TourOutput {
 
   @Field(() => Float)
   price: number;
+
+  @Field()
+  currency: string;
 }
 
 @ObjectType()

@@ -128,6 +128,7 @@ const columns: GridColumn[] = [
     {name: "Name", key: "name", type: "string", href: null},
     {name: "Starting Date", key: "startingDate", type: "string", href: null},
     {name: "Ending Date", key: "endingDate", type: "string", href: null},
+    {name: "Price", key: "priceWithCurrency", type: "string", href: null},
 ];
 
 if (userRoles.includes("editor")) {
@@ -162,6 +163,9 @@ const loadTours = async () => {
         totalPages: Math.ceil(result.totalItems / pageSize)
     };
     if (tours.length !== 0) {
+        tours.forEach((tour) => {
+            tour.priceWithCurrency = `${tour.price} ${tour.currency}`;
+        });
         items.value = tours;
     }
 };

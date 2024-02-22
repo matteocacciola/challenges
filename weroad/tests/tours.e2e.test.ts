@@ -88,14 +88,16 @@ describe('GraphQL Tours module (e2e)', () => {
                   name: "Tour da GraphQL"
                   startingDate: "2022-01-01"
                   endingDate: "2022-01-31"
-                  price: 900
+                  price: 900,
+                  currency: "USD"
                 }
               ) {
                 id,
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,
@@ -103,7 +105,11 @@ describe('GraphQL Tours module (e2e)', () => {
           .expect(200)
           .expect((res) => {
             expect(res.body.data.createTour).toEqual(
-              expect.objectContaining({ name: 'Tour da GraphQL' }),
+              expect.objectContaining({
+                name: 'Tour da GraphQL',
+                price: 900,
+                currency: 'USD',
+              }),
             );
           });
       },
@@ -132,7 +138,8 @@ describe('GraphQL Tours module (e2e)', () => {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,
@@ -174,7 +181,8 @@ describe('GraphQL Tours module (e2e)', () => {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,
@@ -216,7 +224,8 @@ describe('GraphQL Tours module (e2e)', () => {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,
@@ -267,7 +276,8 @@ describe('GraphQL Tours module (e2e)', () => {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,
@@ -310,7 +320,8 @@ describe('GraphQL Tours module (e2e)', () => {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,
@@ -357,7 +368,8 @@ describe('GraphQL Tours module (e2e)', () => {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,
@@ -396,7 +408,8 @@ describe('GraphQL Tours module (e2e)', () => {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,
@@ -446,7 +459,8 @@ describe('GraphQL Tours module (e2e)', () => {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,
@@ -488,7 +502,8 @@ describe('GraphQL Tours module (e2e)', () => {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,
@@ -534,7 +549,8 @@ describe('GraphQL Tours module (e2e)', () => {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,
@@ -572,7 +588,8 @@ describe('GraphQL Tours module (e2e)', () => {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
           `,

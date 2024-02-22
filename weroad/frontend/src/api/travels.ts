@@ -107,7 +107,8 @@ export default {
                 name,
                 startingDate,
                 endingDate,
-                price
+                price,
+                currency
               }
             }
             totalItems

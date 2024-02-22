@@ -31,6 +31,9 @@ export class Tour {
   @Column({ type: 'int', nullable: false })
   price: number;
 
+  @Column({ type: 'varchar', length: 3, nullable: false, default: 'EUR' })
+  currency: string;
+
   @BeforeInsert()
   @BeforeUpdate()
   async insertPrice() {

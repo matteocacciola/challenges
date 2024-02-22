@@ -33,13 +33,7 @@
                             >
                                 <template v-for="column in columns">
                                     <td
-                                        v-if="column.type === 'string[]'"
-                                        class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-                                    >
-                                        {{ getItem(item, column) }}
-                                    </td>
-                                    <td
-                                        v-else-if="column.type === 'string'"
+                                        v-if="column.type === 'string[]' || column.type === 'string'"
                                         class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
                                     >
                                         {{ getItem(item, column) }}

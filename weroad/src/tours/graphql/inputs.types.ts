@@ -36,6 +36,10 @@ export class CreateTourInput {
   @Field(() => Float)
   @IsPositive()
   price: number;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  currency?: string;
 }
 
 @InputType()
@@ -69,6 +73,10 @@ export class UpdateTourInput {
   @IsPositive()
   @IsOptional()
   price?: number;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  currency?: string;
 }
 
 @InputType()
