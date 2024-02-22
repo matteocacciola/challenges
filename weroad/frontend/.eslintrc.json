@@ -1,0 +1,60 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:vue/essential"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "parser": "@typescript-eslint/parser",
+        "project": [
+            "./tsconfig.json"
+        ],
+        "extraFileExtensions": [
+            ".vue"
+        ]
+    },
+    "plugins": [
+        "vue"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        "vue/multi-word-component-names": "off",
+        "vue/no-multiple-template-root": "off",
+        "vue/html-indent": [
+            "error",
+            4
+        ],
+        "vue/no-reserved-component-names": "off",
+        "vue/require-v-for-key": "off",
+        "vue/no-unused-vars": "off",
+        "vue/no-use-v-if-with-v-for": "off",
+        "vue/no-v-for-template-key": "off",
+        "vue/no-mutating-props": "off",
+        "vue/no-setup-props-destructure": "off",
+        "vue/no-deprecated-data-object-declaration": "off",
+        "vue/no-deprecated-destroyed-lifecycle": "off",
+        "vue/no-deprecated-dollar-listeners-api": "off",
+        "vue/no-deprecated-dollar-scopedslots-api": "off",
+        "vue/no-deprecated-events-api": "off",
+        "vue/valid-v-for": "off"
+    }
+}
