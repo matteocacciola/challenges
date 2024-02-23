@@ -16,10 +16,6 @@ export class TravelsService {
     private readonly travelRepository: Repository<Travel>,
   ) {}
 
-  getRepository(): Repository<Travel> {
-    return this.travelRepository;
-  }
-
   async createTravel(data: CreateTravelInput): Promise<Travel> {
     try {
       const { moods, ...rest } = data;
@@ -69,9 +65,19 @@ export class TravelsService {
     }
   }
 
-  public getIsPublicWhereClause(): object {
+  private getIsPublicWhereClause(): object {
     return {
       isPublic: true,
     };
+  }
+
+  async getCountTravels(): Promise<number> {
+    return this.travelRepository.count({
+      where: this.getIsPublicWhereClause(),
+    });
+  }
+
+  async getAllTravels(): Promise<Travel[]> {
+    return this.travelRepository.find();
   }
 }

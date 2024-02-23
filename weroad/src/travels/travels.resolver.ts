@@ -1,11 +1,19 @@
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
-import {AsyncLocalStorage} from 'async_hooks';
-import {TravelsService} from './travels.service';
-import {CreateTravelInput, DeleteTravelInput, GetPaginatedTravelsInput,} from './graphql/inputs.types';
-import {DeletedTravelOutput, PaginatedTravelsOutput, TravelOutput,} from './graphql/objects.types';
-import {Public, Roles} from '../auth/auth.decorator';
-import {Role} from '../roles/roles.enums';
-import {AppResolver as BaseResolver} from '../app.resolver';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { AsyncLocalStorage } from 'async_hooks';
+import { TravelsService } from './travels.service';
+import {
+  CreateTravelInput,
+  DeleteTravelInput,
+  GetPaginatedTravelsInput,
+} from './graphql/inputs.types';
+import {
+  DeletedTravelOutput,
+  PaginatedTravelsOutput,
+  TravelOutput,
+} from './graphql/objects.types';
+import { Public, Roles } from '../auth/auth.decorator';
+import { Role } from '../roles/roles.enums';
+import { AppResolver as BaseResolver } from '../app.resolver';
 
 @Resolver(() => TravelOutput)
 export class TravelsResolver extends BaseResolver {
@@ -39,9 +47,7 @@ export class TravelsResolver extends BaseResolver {
     @Args('filter') input: GetPaginatedTravelsInput,
   ): Promise<PaginatedTravelsOutput> {
     const travels = await this.travelsService.getTravels(input);
-    const count = await this.travelsService
-      .getRepository()
-      .count({ where: this.travelsService.getIsPublicWhereClause() });
+    const count = await this.travelsService.getCountTravels();
 
     return {
       items: travels,
@@ -52,6 +58,6 @@ export class TravelsResolver extends BaseResolver {
   @Query(() => [TravelOutput])
   @Public()
   async getAllTravels(): Promise<TravelOutput[]> {
-    return await this.travelsService.getRepository().find();
+    return await this.travelsService.getAllTravels();
   }
 }
