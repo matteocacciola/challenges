@@ -88,12 +88,12 @@
     </TransitionRoot>
 </template>
 <script lang="ts">
-import {useRoute} from "vue-router";
-import {ref} from "vue";
-import {XMarkIcon} from "@heroicons/vue/24/outline";
-import {Dialog, DialogPanel, TransitionChild, TransitionRoot} from "@headlessui/vue";
-import type {NavigationItem} from "../models/navigationItem";
-import {dynamicSidebarStore} from "../stores";
+import { useRoute } from "vue-router";
+import { ref } from "vue";
+import { XMarkIcon } from "@heroicons/vue/24/outline";
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
+import type { NavigationItem } from "../models/navigationItem";
+import { useDynamicSidebarStore } from "../stores";
 import Logo from "../components/Logo.vue";
 
 export default {
@@ -119,7 +119,7 @@ export default {
     data() {
         return {
             navig: ref<Array<NavigationItem>>([]),
-            sidebarStore: dynamicSidebarStore()
+            sidebarStore: useDynamicSidebarStore()
         };
     },
     mounted() {

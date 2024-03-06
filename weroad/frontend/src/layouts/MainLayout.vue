@@ -33,33 +33,32 @@
     </div>
 </template>
 <script setup lang="ts">
-import {ref } from "vue";
-import {useRouter, RouterView} from "vue-router";
-import "vite/modulepreload-polyfill";
-import Header from "../components/Header.vue";
-import Sidebar from "../components/Sidebar.vue";
-import DynamicSidebar from "@/components/DynamicSidebar.vue";
-import type {NavigationItem} from "../models/navigationItem";
-import {dynamicSidebarStore, userConfigStore} from "../stores";
-import {LifebuoyIcon, TicketIcon, UserPlusIcon} from "@heroicons/vue/24/outline";
+import { ref } from "vue"
+import { useRouter, RouterView } from "vue-router"
+import "vite/modulepreload-polyfill"
+import Header from "../components/Header.vue"
+import Sidebar from "../components/Sidebar.vue"
+import DynamicSidebar from "@/components/DynamicSidebar.vue"
+import type { NavigationItem } from "../models/navigationItem"
+import { useDynamicSidebarStore, useConfigStore } from "../stores"
+import { LifebuoyIcon, TicketIcon, UserPlusIcon } from "@heroicons/vue/24/outline"
 
-const userStore = userConfigStore();
-const userRoles = userStore.roles.map((role) => role.name);
+const userRoles = useConfigStore().userRoles
 
 const navigation: Array<NavigationItem> = [
-    {name: "Tours", href: "/tours", icon: LifebuoyIcon, current: false},
-    {name: "Travels", href: "/travels", icon: TicketIcon, current: false},
-];
+  { name: "Tours", href: "/tours", icon: LifebuoyIcon, current: false },
+  { name: "Travels", href: "/travels", icon: TicketIcon, current: false }
+]
 if (userRoles.includes("admin")) {
-  navigation.push({name: "Create User", icon: UserPlusIcon, href: "/users/new", current: false});
+  navigation.push({ name: "Create User", icon: UserPlusIcon, href: "/users/new", current: false })
 }
 
-const sidebarStore = dynamicSidebarStore();
+const sidebarStore = useDynamicSidebarStore()
 
-const key = ref(0);
+const key = ref(0)
 
-const router = useRouter();
+const router = useRouter()
 router.afterEach((to, from) => {
-    key.value += 1;
-});
+  key.value += 1
+})
 </script>

@@ -8,21 +8,22 @@
         </td>
         <td>
             <router-link
-                :to=""/products/" + item.id"
+                :to="'/products/' + item.id"
                 class="text-red-600 hover:text-red-900"
             >Edit</router-link>
         </td>
     </tr>
 </template>
 <script lang="ts">
-import type { GridColumn } from "../models/gridColumn";
+import type { GridColumn } from "../models/gridColumn"
+
 export default {
-    name: "GridItem",
-    props: {
-        item: Object,
-        columns: Array<GridColumn>,
-    },
-    setup() {
-    }
-};
+  name: "GridItem",
+  props: {
+    item: Object,
+    columns: Array<GridColumn>
+  },
+  setup() {
+  }
+}
 </script>

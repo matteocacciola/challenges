@@ -37,13 +37,13 @@
     </Field>
 </template>
 <script setup lang="ts">
-import {Field} from "vee-validate";
-import {ExclamationCircleIcon} from "@heroicons/vue/20/solid";
+import { Field } from "vee-validate"
+import { ExclamationCircleIcon } from "@heroicons/vue/20/solid"
 
 const props = defineProps<{
-    name: string
-    items: any[]
-    isMultiple?: boolean
-    modelValue: any
-}>();
+  name: string
+  items: any[]
+  isMultiple?: boolean
+  modelValue: any
+}>()
 </script>

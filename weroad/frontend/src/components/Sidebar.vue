@@ -56,24 +56,24 @@
     </div>
 </template>
 <script setup lang="ts">
-import {ref, onMounted} from "vue";
-import {useRoute} from "vue-router";
-import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/vue/24/outline";
-import type {NavigationItem} from "../models/navigationItem";
-import {dynamicSidebarStore} from "../stores";
+import { ref, onMounted } from "vue"
+import { useRoute } from "vue-router"
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/outline"
+import type { NavigationItem } from "../models/navigationItem"
+import { useDynamicSidebarStore } from "../stores"
 
-const sidebarStore = dynamicSidebarStore();
+const sidebarStore = useDynamicSidebarStore()
 
-const route = useRoute();
-const navig = ref<Array<NavigationItem>>([]);
+const route = useRoute()
+const navig = ref<Array<NavigationItem>>([])
 const props = defineProps({
-    navigation: Array<NavigationItem>,
-});
+  navigation: Array<NavigationItem>
+})
 
 onMounted(() => {
-    navig.value = props.navigation?.map((item) => ({
-        ...item,
-        current: route.fullPath.startsWith(item.href),
-    }));
-});
+  navig.value = props.navigation?.map((item) => ({
+    ...item,
+    current: route.fullPath.startsWith(item.href)
+  }))
+})
 </script>

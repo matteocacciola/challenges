@@ -5,19 +5,18 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import { ForbiddenError } from '@nestjs/apollo';
 import { IS_PUBLIC_KEY, ROLE_KEY } from './auth.decorator';
 import { Role } from '../roles/roles.enums';
 import { AccessControlService } from './access-control.service';
 import { UserStore } from './auth.models';
-import { AsyncLocalStorage } from 'async_hooks';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
     private accessControlService: AccessControlService,
-    private asyncLocalStorage: AsyncLocalStorage<any>,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -29,7 +28,10 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    const user = await this.asyncLocalStorage.getStore()?.user;
+    const ctx = GqlExecutionContext.create(context).getContext();
+    const {
+      req: { user },
+    } = ctx;
     if (!user) {
       throw new UnauthorizedException();
     }

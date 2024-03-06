@@ -60,44 +60,44 @@
 </template>
 
 <script lang="ts">
-import type { Notification } from "../models/notification";
-import { useNotificationStore } from "../stores";
-import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/vue/24/outline";
-import { defineComponent, ref, watch } from "vue";
+import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/vue/24/outline"
+import { defineComponent, ref, watch } from "vue"
+import type { Notification } from "../models/notification"
+import { useNotificationStore } from "../stores"
 
 export default defineComponent({
-    id: "notification",
-    components: {
-        CheckCircleIcon,
-        ExclamationCircleIcon,
-    },
-    setup() {
-        const notificationStore = useNotificationStore();
-        const currentNotification = ref<Notification>(null);
+  id: "notification",
+  components: {
+    CheckCircleIcon,
+    ExclamationCircleIcon
+  },
+  setup() {
+    const notificationStore = useNotificationStore()
+    const currentNotification = ref<Notification>(null)
 
-        function getNotification() {
-            currentNotification.value = notificationStore.notifications.pop();
-            if (currentNotification.value) {
-                setInterval(() => {
-                    getNotification();
-                }, currentNotification.value.timeout);
-            }
+    function getNotification() {
+      currentNotification.value = notificationStore.notifications.pop()
+      if (currentNotification.value) {
+        setInterval(() => {
+          getNotification()
+        }, currentNotification.value.timeout)
+      }
+    }
+
+    watch(
+      () => notificationStore.notifications.length,
+      () => {
+        if (!currentNotification.value) {
+          getNotification()
         }
+      },
+      { immediate: true }
+    )
 
-        watch(
-            () => notificationStore.notifications.length,
-            () => {
-                if (!currentNotification.value) {
-                    getNotification();
-                }
-            },
-            { immediate: true },
-        )
-
-        return {
-            currentNotification,
-            getNotification,
-        };
-    },
-});
+    return {
+      currentNotification,
+      getNotification
+    }
+  }
+})
 </script>

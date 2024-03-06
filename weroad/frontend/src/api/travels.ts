@@ -1,147 +1,151 @@
-import { api } from "./api";
+import gql from "graphql-tag"
+import { query, mutate } from "./api"
+import type {
+  DeletedTravelOutput,
+  DeleteTravelInput,
+  PaginatedTravelsOutput,
+  TravelOutput,
+  MoodsInput
+} from "../graphql/types"
+
+type CreateTravelInput = {
+  slug: string,
+  name: string,
+  description: string,
+  numberOfDays: number,
+  isPublic?: boolean,
+  moods: MoodsInput,
+};
+
+type GetPaginatedTravelsInput = {
+  page?: number,
+  pageSize?: number,
+}
 
 export default {
   async createTravel(
-    slug: string,
-    name: string,
-    description: string,
-    numberOfDays: number,
-    moods: {
-      nature: number,
-      history: number,
-      party: number,
-      relax: number,
-      culture: number,
-    },
-    isPublic?: boolean,
-  ) {
-    const response = await api({
-      query: `
-        mutation CreateTravel {
-          createTravel (
-            input: {
-              isPublic: ${isPublic ?? false}
-              slug: "${slug}"
-              name: "${name}"
-              description: "${description}"
-              numberOfDays: ${numberOfDays}
-              moods: {
-                nature: ${moods.nature}
-                history: ${moods.history}
-                party: ${moods.party}
-                relax: ${moods.relax}
-                culture: ${moods.culture}
-              }
+    { slug, name, description, numberOfDays, moods, isPublic }: {
+      slug: string,
+      name: string,
+      description: string,
+      numberOfDays: number,
+      moods: MoodsInput,
+      isPublic?: boolean
+    }): Promise<TravelOutput | null> {
+    const response = await mutate<CreateTravelInput, { createTravel: TravelOutput }>(
+      gql`
+        mutation CreateTravel($isPublic: Boolean!, $slug: String!, $name: String!, $description: String!, $numberOfDays: Int!, $moods: MoodsInput!) {
+            createTravel (input: {
+                isPublic: $isPublic
+                slug: $slug
+                name: $name
+                description: $description
+                numberOfDays: $numberOfDays
+                moods: $moods
+            }) {
+                id
+                isPublic
+                slug
+                name
+                description
+                numberOfDays
+                moods {
+                    nature
+                    history
+                    party
+                    relax
+                    culture
+                }
+                numberOfNights
             }
-          ) {
-            id
-            isPublic
-            slug
-            name
-            description
-            numberOfDays
-            moods {
-              nature
-              history
-              party
-              relax
-              culture
-            }
-            numberOfNights
-          }
-        }
-      `,
-    });
-    return response.createTravel;
+        }`,
+      { isPublic, slug, name, description, numberOfDays, moods })
+    return response?.createTravel || null
   },
 
-  async deleteTravel(id: string) {
-    const response = await api({
-      query: `
-        mutation DeleteTravel {
-          deleteTravel(
-            input: {
-              id: "${id}"
+  async deleteTravel(id: string): Promise<DeletedTravelOutput | null> {
+    const response = await mutate<DeleteTravelInput, { deleteTravel: DeletedTravelOutput }>(
+      gql`
+        mutation DeleteTravel($id: String!) {
+            deleteTravel(input: { id: $id }) {
+                id
+                isDeleted
             }
-          ) {
-            id
-            isDeleted
-          }
-        }
-      `,
-    });
-    return response.deleteTravel;
+        }`,
+      { id })
+    return response?.deleteTravel || null
   },
 
-  async getTravels(page?: number, pageSize?: number) {
-    page = page || 1;
-    pageSize = pageSize || 10;
-    const response = await api({
-      query: `
-        query GetTravels {
-          getTravels(
-            filter: {
-              pagination: {
-                page: ${page}
-                pageSize: ${pageSize}
-              }
+  async getTravels({ page, pageSize }: { page?: number, pageSize?: number }): Promise<{
+    result: PaginatedTravelsOutput,
+    page: number,
+    pageSize: number
+  } | null> {
+    page = page || 1
+    pageSize = pageSize || 10
+    const result = await query<GetPaginatedTravelsInput, { getTravels: PaginatedTravelsOutput }>(
+      gql`
+        query GetTravels($page: Int!, $pageSize: Int!) {
+            getTravels(
+                filter: {
+                    pagination: {
+                        page: $page
+                        pageSize: $pageSize
+                    }
+                }
+            ) {
+                items {
+                    id
+                    isPublic
+                    slug
+                    name
+                    description
+                    numberOfDays
+                    moods {
+                        nature
+                        history
+                        party
+                        relax
+                        culture
+                    }
+                    numberOfNights
+                    tours {
+                        id,
+                        name,
+                        startingDate,
+                        endingDate,
+                        price,
+                        currency
+                    }
+                }
+                totalItems
             }
-          ) {
-            items {
-              id
-              isPublic
-              slug
-              name
-              description
-              numberOfDays
-              moods {
-                nature
-                history
-                party
-                relax
-                culture
-              }
-              numberOfNights
-              tours {
-                id,
-                name,
-                startingDate,
-                endingDate,
-                price,
-                currency
-              }
-            }
-            totalItems
-          }
-        }
-      `,
-    });
-    return { result: response.getTravels, page, pageSize };
+        }`,
+      { page, pageSize })
+    return { result: result.getTravels, page, pageSize }
   },
 
-  async getAll() {
-    const response = await api({
-      query: `
+  async getAll(): Promise<TravelOutput[]> {
+    const result = await query<{}, { getAllTravels: TravelOutput[] }>(
+      gql`
         query GetAllTravels {
-          getAllTravels {
-            id
-            isPublic
-            slug
-            name
-            description
-            numberOfDays
-            moods {
-              nature
-              history
-              party
-              relax
-              culture
+            getAllTravels {
+                id
+                isPublic
+                slug
+                name
+                description
+                numberOfDays
+                moods {
+                    nature
+                    history
+                    party
+                    relax
+                    culture
+                }
+                numberOfNights
             }
-            numberOfNights
-          }
-        }
-      `,
-    });
-    return response.getAllTravels;
-  },
-};
+        }`)
+    return result?.getAllTravels || []
+  }
+}

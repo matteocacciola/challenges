@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './users.entity';
@@ -23,7 +27,9 @@ export class UsersService {
         ),
       );
     } catch (error) {
-      throw new Error(`One or more roles in ${data.roles} not found.`);
+      throw new NotFoundException(
+        `One or more roles in ${data.roles} not found.`,
+      );
     }
 
     let newUser: User;
@@ -34,7 +40,9 @@ export class UsersService {
         roles: roles,
       });
     } catch (error) {
-      throw new Error(`Error creating user: ${error.message}`);
+      throw new InternalServerErrorException(
+        `Error creating user: ${error.message}`,
+      );
     }
 
     return this.userRepository.save(newUser);

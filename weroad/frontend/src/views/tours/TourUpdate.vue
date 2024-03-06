@@ -48,82 +48,84 @@
     </div>
 </template>
 <script setup lang="ts">
-import {ref, toRaw} from "vue";
-import {useRoute} from "vue-router";
-import {useRouter} from "vue-router";
-import ToursAPI from "../../api/tours";
-import {ArrowLeftIcon} from "@heroicons/vue/24/outline";
-import {useNotificationStore} from "../../stores";
-import SharedForm from "./SharedForm.vue";
-import {Form} from "vee-validate";
-import * as yup from "yup";
+import { onMounted, ref } from "vue"
+import { useRoute, useRouter } from "vue-router"
+import { Form } from "vee-validate"
+import * as yup from "yup"
+import ToursAPI from "../../api/tours"
+import { ArrowLeftIcon } from "@heroicons/vue/24/outline"
+import { useNotificationStore } from "../../stores"
+import SharedForm from "./SharedForm.vue"
 
-const notificationStore = useNotificationStore();
+const notificationStore = useNotificationStore()
 
 const schema = yup.object().shape({
-    name: yup.string().required().label("Name"),
-    startingDate: yup.date().required().label("Starting Date"),
-    endingDate: yup.date().required().label("Ending Date"),
-    price: yup.number().required().label("Price")
-});
+  name: yup.string().required().label("Name"),
+  startingDate: yup.date().required().label("Starting Date"),
+  endingDate: yup.date().required().label("Ending Date"),
+  price: yup.number().required().label("Price")
+})
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 const item = ref({
-    id: null,
-    travelId: null,
-    name: null,
-    startingDate: null,
-    endingDate: null,
-    price: null
-});
+  id: null,
+  travelId: null,
+  name: null,
+  startingDate: null,
+  endingDate: null,
+  price: null
+})
 
 const goback = async () => {
-  await router.push({name: "tours", params: {page: localStorage.getItem("currentPage") || "1"}});
+  await router.push({ name: "tours", params: { page: localStorage.getItem("currentPage") || "1" } })
 }
 
-let isSaving = false;
+let isSaving = false
 
 const updateItem = async () => {
-    if (isSaving) {
-        return;
-    }
+  if (isSaving) {
+    return
+  }
 
-    try {
-        schema.validateSync(item.value, {abortEarly: false});
-    } catch (err) {
-        let message = ""
-        err.inner.forEach(error => {
-            message += error.message + "<br>";
-        });
-        notificationStore.notifications.push({
-            type: "error",
-            description: message,
-            timeout: 5000,
-        });
-        return;
-    }
-
-    isSaving = true;
-    const { id, name, startingDate, endingDate, price } = item.value;
-    const response = await ToursAPI.updateTour(id, name, startingDate, endingDate, price);
-    if (response === false) {
-        isSaving = false;
-        return;
-    }
-    item.value = response;
-
+  try {
+    schema.validateSync(item.value, { abortEarly: false })
+  } catch (err) {
+    let message = ""
+    err.inner.forEach(error => {
+      message += error.message + "<br>"
+    })
     notificationStore.notifications.push({
-        type: "success",
-        description: "Tour updated",
-        timeout: 5000,
-    });
-    isSaving = false;
-};
+      type: "error",
+      description: message,
+      timeout: 5000
+    })
+    return
+  }
+
+  isSaving = true
+  const { id, name, startingDate, endingDate, price } = item.value
+  const response = await ToursAPI.updateTour(,{ id, name, startingDate, endingDate, price })
+  if (!response) {
+    isSaving = false
+    return
+  }
+  item.value = { ...item.value, ...response }
+
+  notificationStore.notifications.push({
+    type: "success",
+    description: "Tour updated",
+    timeout: 5000
+  })
+  isSaving = false
+}
 
 const loadData = async () => {
-    item.value = await ToursAPI.getTour(route.params.id as unknown as string);
-};
+  const result = await ToursAPI.getTour(route.params.id as unknown as string)
+  item.value = { ...item.value, ...result }
+}
 
-loadData().then(() => document.title += " #" + route.params.id);
+onMounted(() =>
+  loadData().then(() => document.title += " #" + route.params.id)
+)
 </script>

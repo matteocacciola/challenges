@@ -1,0 +1,14 @@
+overwrite: false
+schema: ${VITE_API_BASE_URL}
+documents: ["src/api/*.ts"]
+generates:
+    src/graphql/types.ts:
+        plugins:
+            - "typescript"
+    src/graphql/schema.json:
+        plugins:
+            - "introspection"
+    src/graphql/urql.ts:
+        plugins:
+            - "typescript-operations"
+            - "typescript-vue-urql"

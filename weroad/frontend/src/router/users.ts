@@ -5,7 +5,7 @@ export const usersRoutes = [
     component: () => import("../views/users/UserCreate.vue"),
     meta: {
       role: "admin",
-      title: "New User",
-    },
-  },
-];
+      title: "New User"
+    }
+  }
+]

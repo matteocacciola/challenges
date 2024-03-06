@@ -4,8 +4,8 @@ export const toursRoutes = [
     name: "tours",
     component: () => import("../views/tours/ToursList.vue"),
     meta: {
-      title: "List of Tours",
-    },
+      title: "List of Tours"
+    }
   },
   {
     path: "/tours/new",
@@ -13,8 +13,8 @@ export const toursRoutes = [
     component: () => import("../views/tours/TourCreate.vue"),
     meta: {
       role: "admin",
-      title: "New Tour",
-    },
+      title: "New Tour"
+    }
   },
   {
     path: "/tours/:id",
@@ -22,7 +22,7 @@ export const toursRoutes = [
     component: () => import("../views/tours/TourUpdate.vue"),
     meta: {
       role: "editor",
-      title: "Product Instance detail",
-    },
-  },
-];
+      title: "Product Instance detail"
+    }
+  }
+]

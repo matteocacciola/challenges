@@ -1,8 +1,8 @@
-import type { FunctionalComponent } from "vue";
+import type { FunctionalComponent } from "vue"
 
 export declare type NavigationItem = {
-    name: string;
-    href: string;
-    icon?: FunctionalComponent;
-    current: boolean;
+  name: string;
+  href: string;
+  icon?: FunctionalComponent;
+  current: boolean;
 };

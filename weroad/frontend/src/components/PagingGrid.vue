@@ -27,39 +27,39 @@
     </div>
 </template>
 <script lang="ts">
-import Grid from "./Grid.vue";
-import type {GridColumn} from "../models/gridColumn";
-import Pagination from "./Pagination.vue";
-import type {Page} from "../models/page";
+import Grid from "./Grid.vue"
+import type { GridColumn } from "../models/gridColumn"
+import Pagination from "./Pagination.vue"
+import type { Page } from "../models/page"
 
 export default {
-    name: "PagingGrid",
-    emits: ["add", "remove"],
-    props: {
-        page: {
-            type: Object as () => Page<any>
-        },
-        columns: Array<GridColumn>,
-        items: Array,
-        route: String,
+  name: "PagingGrid",
+  emits: ["add", "remove"],
+  props: {
+    page: {
+      type: Object as () => Page<any>
     },
-    components: {
-        Pagination,
-        Grid,
-    },
-    setup(prevProps, {emit}) {
-        const add = (item: any) => {
-            emit("add", item);
-        };
-
-        const remove = (item: any) => {
-            emit("remove", item);
-        };
-
-        return {
-            add,
-            remove,
-        };
+    columns: Array<GridColumn>,
+    items: Array,
+    route: String
+  },
+  components: {
+    Pagination,
+    Grid
+  },
+  setup(prevProps, { emit }) {
+    const add = (item: any) => {
+      emit("add", item)
     }
-};
+
+    const remove = (item: any) => {
+      emit("remove", item)
+    }
+
+    return {
+      add,
+      remove
+    }
+  }
+}
 </script>

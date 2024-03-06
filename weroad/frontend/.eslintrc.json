@@ -56,5 +56,6 @@
         "vue/no-deprecated-dollar-scopedslots-api": "off",
         "vue/no-deprecated-events-api": "off",
         "vue/valid-v-for": "off"
-    }
+    },
+    "ignorePatterns": ["node_modules", "dist", "src/gql"]
 }

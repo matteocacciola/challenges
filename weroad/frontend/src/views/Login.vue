@@ -62,40 +62,40 @@
 </template>
   
 <script setup lang="ts">
-import { LockClosedIcon } from "@heroicons/vue/20/solid";
-import { onBeforeMount, ref } from "vue";
-import { useRouter } from "vue-router";
-import LoginAPI from "../api/auth";
-import {useAuthStore, useNotificationStore, userConfigStore} from "../stores";
-import Logo from "../components/Logo.vue";
+import { LockClosedIcon } from "@heroicons/vue/20/solid"
+import { onBeforeMount, ref } from "vue"
+import { useRouter } from "vue-router"
+import LoginAPI from "../api/auth"
+import { useConfigStore, useAuthStore, useNotificationStore } from "../stores"
+import Logo from "../components/Logo.vue"
 
-const router = useRouter();
-const notificationStore = useNotificationStore();
-const authStore = useAuthStore();
+const router = useRouter()
+const notificationStore = useNotificationStore()
+const authStore = useAuthStore()
 
-const email = ref("");
-const password = ref("");
+const email = ref("")
+const password = ref("")
 
 const submit = async () => {
-  const response = await LoginAPI.login(email.value, password.value);
-  if (response) {
-    localStorage.setItem("token", JSON.stringify(response));
-    authStore.updateState();
-    await userConfigStore().fetchUserRoles();
-    await router.push({ name: "tours" });
-    return;
+  const token = await LoginAPI.login({ email: email.value, password: password.value })
+  if (token) {
+    localStorage.setItem("token", JSON.stringify(token))
+    authStore.updateState()
+    await useConfigStore().fetchUserRoles()
+    // await router.push({ name: "tours" })
+    window.location.href = "/"
+    return
   }
   notificationStore.notifications.push({
     type: "error",
     description: "Invalid credentials. Please try again.",
-    timeout: 5000,
-  });
-};
+    timeout: 5000
+  })
+}
 
 onBeforeMount(() => {
   if (authStore.getToken) {
-    router.push({ name: "tours" });
+    router.push({ name: "tours" })
   }
-});
-
+})
 </script>

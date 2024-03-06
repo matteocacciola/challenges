@@ -83,18 +83,18 @@
     </Field>
 </template>
 <script setup lang="ts">
-import {ExclamationCircleIcon} from "@heroicons/vue/20/solid";
-import {Field} from "vee-validate";
+import { ExclamationCircleIcon } from "@heroicons/vue/20/solid"
+import { Field } from "vee-validate"
 
 const props = defineProps<{
-    modelValue: unknown
-    placeholder?: string
-    id?: string
-    name: string
-    type: string
-    readonly?: boolean
-    value?: string | boolean
-    rows?: number
-    cols?: number
-}>();
+  modelValue: unknown
+  placeholder?: string
+  id?: string
+  name: string
+  type: string
+  readonly?: boolean
+  value?: string | boolean
+  rows?: number
+  cols?: number
+}>()
 </script>

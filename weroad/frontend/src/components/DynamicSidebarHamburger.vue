@@ -14,8 +14,8 @@
     </div>
 </template>
 <script setup lang="ts">
-import {Bars3Icon} from "@heroicons/vue/24/outline";
-import {dynamicSidebarStore} from "../stores";
+import { Bars3Icon } from "@heroicons/vue/24/outline"
+import { useDynamicSidebarStore } from "../stores"
 
-const sidebarStore = dynamicSidebarStore();
+const sidebarStore = useDynamicSidebarStore()
 </script>

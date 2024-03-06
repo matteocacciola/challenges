@@ -51,69 +51,69 @@
     </div>
 </template>
 <script setup lang="ts">
-import SharedForm from "./SharedForm.vue";
-import {ref} from "vue";
-import {Form} from "vee-validate";
-import {ArrowLeftIcon} from "@heroicons/vue/24/outline";
-import * as yup from "yup";
-import {useNotificationStore} from "../../stores";
-import UsersAPI from "../../api/users";
-import {router} from "../../router";
+import SharedForm from "./SharedForm.vue"
+import { ref } from "vue"
+import { Form } from "vee-validate"
+import { ArrowLeftIcon } from "@heroicons/vue/24/outline"
+import * as yup from "yup"
+import { useNotificationStore } from "../../stores"
+import UsersAPI from "../../api/users"
+import { router } from "../../router"
 
-const notificationStore = useNotificationStore();
+const notificationStore = useNotificationStore()
 
 const item = ref({
-    email: null,
-    password: null,
-    role: null,
-});
+  email: null,
+  password: null,
+  role: null
+})
 
 const schema = yup.object().shape({
-    email: yup.string().email().required(),
-    password: yup.string().required(),
-    role: yup.string().required()
-});
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+  role: yup.string().required()
+})
 
-let isSaving = false;
+let isSaving = false
 
 const goback = async () => {
-  await router.push({name: "tours"});
+  await router.push({ name: "tours" })
 }
 
 const saveItem = async () => {
-    if (isSaving) {
-        return;
-    }
+  if (isSaving) {
+    return
+  }
 
-    try {
-        schema.validateSync(item.value, {abortEarly: false});
-    } catch (err) {
-        let message = "";
-        err.inner.forEach(error => {
-            message += error.message + "<br>";
-        });
-        notificationStore.notifications.push({
-            type: "error",
-            description: message,
-            timeout: 5000,
-        });
-        return;
-    }
-
-    isSaving = true;
-    const { email, password, role } = item.value;
-    const response = await UsersAPI.createUser(email, password, [role]);
-    if (response === false) {
-        isSaving = false;
-        return;
-    }
-    item.value = response;
+  try {
+    schema.validateSync(item.value, { abortEarly: false })
+  } catch (err) {
+    let message = ""
+    err.inner.forEach(error => {
+      message += error.message + "<br>"
+    })
     notificationStore.notifications.push({
-        type: "success",
-        description: "User created",
-        timeout: 5000,
-    });
-    isSaving = false;
-    router.push({name: "travels"});
-};
+      type: "error",
+      description: message,
+      timeout: 5000
+    })
+    return
+  }
+
+  isSaving = true
+  const { email, password, role } = item.value
+  const response = await UsersAPI.createUser({ email, password, roles: [role] })
+  if (!response) {
+    isSaving = false
+    return
+  }
+  item.value = { email: response.email, password, role: response.roles[0] }
+  notificationStore.notifications.push({
+    type: "success",
+    description: "User created",
+    timeout: 5000
+  })
+  isSaving = false
+  await router.push({ name: "travels" })
+}
 </script>

@@ -10,6 +10,6 @@
 import VueDatePicker from "@vuepic/vue-datepicker";
 
 const props = defineProps<{
-    value: Date
+  value: Date
 }>();
 </script>

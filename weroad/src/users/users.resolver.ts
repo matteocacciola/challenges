@@ -1,5 +1,4 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
-import { AsyncLocalStorage } from 'async_hooks';
 import { UsersService } from './users.service';
 import { CreateUserInput } from './graphql/inputs.types';
 import { UserOutput } from './graphql/objects.types';
@@ -9,11 +8,8 @@ import { AppResolver as BaseResolver } from '../app.resolver';
 
 @Resolver(() => UserOutput)
 export class UsersResolver extends BaseResolver {
-  constructor(
-    asyncLocalStorage: AsyncLocalStorage<any>,
-    private readonly usersService: UsersService,
-  ) {
-    super(asyncLocalStorage);
+  constructor(private readonly usersService: UsersService) {
+    super();
   }
 
   @Mutation(() => UserOutput)

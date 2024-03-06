@@ -1,79 +1,79 @@
-import axios, { type AxiosResponse } from "axios";
-import { APISettings } from "./config";
-import { useAuthStore, useNotificationStore } from "../stores";
+import type { CombinedError } from "@urql/core"
+import { toRaw } from "vue"
+import type { DocumentNode } from "graphql"
+import { useAuthStore, useNotificationStore, useGraphqlStore } from "../stores"
 
-type ApiData = {
-  query: string;
-  variables?: any;
-};
-
-const process = async (
-  response: AxiosResponse,
-  authStore: any,
-  notificationStore: any,
-) => {
-  const data = response.data.data;
+const process = <U>(data: U, error: CombinedError): U | null => {
   if (data) {
-    return data;
+    return toRaw(data)
   }
 
-  const error = response.data.errors?.[0]?.extensions.originalError?.statusCode || 500;
+  const errorMessage = error.graphQLErrors?.[0]?.message || "Internal error. Please, contact the administrator."
+  const errorCode = error.graphQLErrors?.[0]?.extensions?.code || 500
 
-  if (error === 401) {
-    authStore.logout();
-    return false;
+  const authStore = useAuthStore()
+  const notificationStore = useNotificationStore()
+
+  if (errorCode === 401) {
+    authStore.logout()
+    return null
   }
 
-  if (error == 403) {
+  if (errorCode == 403) {
     notificationStore.notifications.push({
       type: "error",
       description: "Forbidden",
-      timeout: 5000,
-    });
-    return false;
+      timeout: 5000
+    })
+    return null
   }
 
-  if (error == 404) {
+  if (errorCode == 404) {
     notificationStore.notifications.push({
       type: "error",
       description: "Not found",
-      timeout: 5000,
-    });
-    return false;
+      timeout: 5000
+    })
+    return null
   }
 
-  if (error >= 400 && error < 500) {
+  if (errorCode >= 400 && errorCode < 500) {
     notificationStore.notifications.push({
       type: "error",
-      description:
-        "An error occurred. Please, try again later or contact the administrator.",
-      timeout: 5000,
-    });
-    return false;
+      description: "An error occurred. Please, try again later or contact the administrator.",
+      timeout: 5000
+    })
+    return null
   }
 
   notificationStore.notifications.push({
     type: "error",
-    description: response.data.errors?.[0]?.message || "Internal error. Please, contact the administrator.",
-    timeout: 5000,
-  });
-  return false;
-};
+    description: errorMessage,
+    timeout: 5000
+  })
+  return null
+}
 
-export async function api({ query, variables }: ApiData): Promise<any> {
-  const authStore = useAuthStore();
-  const notificationStore = useNotificationStore();
-  const apiSettings = APISettings();
+export async function mutate<T, U>(m: DocumentNode, args?: T): Promise<U | null> {
+  const graphqlStore = useGraphqlStore()
 
   try {
-    const response = await axios.post(
-      apiSettings.baseURL,
-      { query, variables },
-      { headers: apiSettings.headers },
-    );
+    const { data, error } = await graphqlStore.client.mutation(m, args).toPromise()
 
-    return process(response, authStore, notificationStore);
+    return process<U | null>(data, error)
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error storing data:", error)
+  }
+}
+
+export async function query<T, U>(q: DocumentNode, args?: T): Promise<U | null> {
+  const graphqlStore = useGraphqlStore()
+
+  try {
+    const { error, data } = await graphqlStore.client.query(q, args).toPromise()
+
+    return process<U | null>(data, error)
+  } catch (error) {
+    console.error("Error fetching data:", error)
   }
 }

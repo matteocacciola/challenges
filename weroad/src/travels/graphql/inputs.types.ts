@@ -73,7 +73,7 @@ export class CreateTravelInput {
   @IsString()
   description: string;
 
-  @Field({ nullable: false })
+  @Field(() => Int, { nullable: false })
   @IsNumber()
   numberOfDays: number;
 

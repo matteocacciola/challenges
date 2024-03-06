@@ -1,5 +1,9 @@
 import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Travel } from './travels.entity';
 import {
@@ -32,7 +36,7 @@ export class TravelsService {
 
       return this.travelRepository.save(travel);
     } catch (error) {
-      throw new Error(
+      throw new UnprocessableEntityException(
         `Something went wrong when creating a new travel: ${error}`,
       );
     }
@@ -43,7 +47,7 @@ export class TravelsService {
       await this.travelRepository.delete(data.id);
       return true;
     } catch (error) {
-      throw new Error(
+      throw new UnprocessableEntityException(
         `Something went wrong when deleting travel with id ${data.id}: ${error}`,
       );
     }
@@ -61,7 +65,9 @@ export class TravelsService {
         where: this.getIsPublicWhereClause(),
       });
     } catch (error) {
-      throw new Error(`Something went wrong when getting travels: ${error}`);
+      throw new InternalServerErrorException(
+        `Something went wrong when getting travels: ${error}`,
+      );
     }
   }
 

@@ -1,16 +1,18 @@
-import { api } from "./api";
+import gql from "graphql-tag"
+import { query } from "./api"
+import type { RoleOutput } from "../graphql/types"
 
 export default {
-  async roles() {
-    const response = await api({
-      query: `
+  async roles(): Promise<RoleOutput[]> {
+    const result = await query<{}, { getAllRoles : RoleOutput[] }>(
+      gql`
         query GetAllRoles {
-          getAllRoles {
-            name
-          }
-        }
-      `,
-    });
-    return response.getAllRoles;
-  },
-};
+            getAllRoles {
+                name
+            }
+        }`,
+      {}
+    )
+    return result?.getAllRoles || []
+  }
+}

@@ -4,8 +4,8 @@ export const travelsRoutes = [
     name: "travels",
     component: () => import("../views/travels/TravelsList.vue"),
     meta: {
-      title: "List of Travels",
-    },
+      title: "List of Travels"
+    }
   },
   {
     path: "/travels/new",
@@ -13,7 +13,7 @@ export const travelsRoutes = [
     component: () => import("../views/travels/TravelCreate.vue"),
     meta: {
       role: "admin",
-      title: "New Travel",
-    },
-  },
-];
+      title: "New Travel"
+    }
+  }
+]

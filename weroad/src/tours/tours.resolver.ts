@@ -1,5 +1,4 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
-import { AsyncLocalStorage } from 'async_hooks';
 import { ToursService } from './tours.service';
 import {
   CreateTourInput,
@@ -14,11 +13,8 @@ import { AppResolver as BaseResolver } from '../app.resolver';
 
 @Resolver(() => TourOutput)
 export class ToursResolver extends BaseResolver {
-  constructor(
-    asyncLocalStorage: AsyncLocalStorage<any>,
-    private readonly toursService: ToursService,
-  ) {
-    super(asyncLocalStorage);
+  constructor(private readonly toursService: ToursService) {
+    super();
   }
 
   @Mutation(() => TourOutput)

@@ -76,11 +76,12 @@
     </div>
 </template>
 <script setup lang="ts">
-import Field from "@/components/forms/Field.vue";
-import {capitalize} from "../../composables/utilities";
+import type { TravelOutput } from "@/graphql/types"
+import { capitalize } from "../../composables/utilities"
+import Field from "../../components/forms/Field.vue"
 
 const props = defineProps<{
-    item: Object
-    createMode: boolean
-}>();
+  item: TravelOutput
+  createMode: boolean
+}>()
 </script>

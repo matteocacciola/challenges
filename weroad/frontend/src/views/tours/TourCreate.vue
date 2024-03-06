@@ -48,16 +48,16 @@
     </div>
 </template>
 <script setup lang="ts">
-import {ref} from "vue";
-import SharedForm from "./SharedForm.vue";
-import {Form} from "vee-validate";
-import {ArrowLeftIcon} from "@heroicons/vue/24/outline";
-import * as yup from "yup";
-import {useNotificationStore} from "../../stores";
-import ToursAPI from "../../api/tours";
-import {router} from "../../router";
+import { ref } from "vue"
+import SharedForm from "./SharedForm.vue"
+import { Form } from "vee-validate"
+import { ArrowLeftIcon } from "@heroicons/vue/24/outline"
+import * as yup from "yup"
+import { useNotificationStore } from "../../stores"
+import ToursAPI from "../../api/tours"
+import { router } from "../../router"
 
-const notificationStore = useNotificationStore();
+const notificationStore = useNotificationStore()
 
 const item = ref({
   id: null,
@@ -66,56 +66,56 @@ const item = ref({
   startingDate: null,
   endingDate: null,
   price: null
-});
+})
 
 const schema = yup.object().shape({
-    travelId: yup.string().uuid().required().label("Travel ID"),
-    name: yup.string().required().label("Name"),
-    startingDate: yup.date().required().label("Starting Date"),
-    endingDate: yup.date().required().label("Ending Date"),
-    price: yup.number().required().label("Price")
-});
+  travelId: yup.string().uuid().required().label("Travel ID"),
+  name: yup.string().required().label("Name"),
+  startingDate: yup.date().required().label("Starting Date"),
+  endingDate: yup.date().required().label("Ending Date"),
+  price: yup.number().required().label("Price")
+})
 
-let isSaving = false;
+let isSaving = false
 
 const goback = async () => {
-  await router.push({name: "tours", params: {page: localStorage.getItem("currentPage") || "1"}});
+  await router.push({ name: "tours", params: { page: localStorage.getItem("currentPage") || "1" } })
 }
 
 const saveItem = async () => {
-    if (isSaving) {
-        return;
-    }
+  if (isSaving) {
+    return
+  }
 
-    try {
-        schema.validateSync(item.value, {abortEarly: false});
-    } catch (err) {
-        let message = "";
-        err.inner.forEach(error => {
-            message += error.message + "<br>";
-        });
-        notificationStore.notifications.push({
-            type: "error",
-            description: message,
-            timeout: 5000,
-        });
-        return;
-    }
-
-    isSaving = true;
-    const { travelId, name, startingDate, endingDate, price } = item.value;
-    const response = await ToursAPI.createTour(travelId, name, startingDate, endingDate, price);
-    if (response === false) {
-        isSaving = false;
-        return;
-    }
-    item.value = response;
+  try {
+    schema.validateSync(item.value, { abortEarly: false })
+  } catch (err) {
+    let message = ""
+    err.inner.forEach(error => {
+      message += error.message + "<br>"
+    })
     notificationStore.notifications.push({
-        type: "success",
-        description: "Tour created",
-        timeout: 5000,
-    });
-    isSaving = false;
-    await router.push({name: "tour-edit", params: {id: item.value.id}});
-};
+      type: "error",
+      description: message,
+      timeout: 5000
+    })
+    return
+  }
+
+  isSaving = true
+  const { travelId, name, startingDate, endingDate, price } = item.value
+  const response = await ToursAPI.createTour({ travelId, name, startingDate, endingDate, price })
+  if (!response) {
+    isSaving = false
+    return
+  }
+  item.value = { ...item.value, ...response }
+  notificationStore.notifications.push({
+    type: "success",
+    description: "Tour created",
+    timeout: 5000
+  })
+  isSaving = false
+  await router.push({ name: "tour-edit", params: { id: item.value.id } })
+}
 </script>

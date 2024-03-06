@@ -36,10 +36,10 @@ export class TravelOutput {
   @Field()
   description: string;
 
-  @Field()
+  @Field(() => Int)
   numberOfDays: number;
 
-  @Field()
+  @Field(() => Int)
   numberOfNights: number;
 
   @Field(() => MoodsOutput)

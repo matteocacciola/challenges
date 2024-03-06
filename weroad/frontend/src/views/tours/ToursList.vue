@@ -94,112 +94,111 @@
 </template>
 
 <script setup lang="ts">
-import {shallowRef, onMounted, ref, watch, onBeforeMount} from "vue";
-import {useRoute, useRouter, onBeforeRouteUpdate} from "vue-router";
-import {ArrowPathIcon, XMarkIcon, PlusIcon} from "@heroicons/vue/24/outline";
-import type {GridColumn} from "../../models/gridColumn";
-import ToursAPI from "../../api/tours";
-import PagingGrid from "../../components/PagingGrid.vue";
-import Search from "../../components/forms/Search.vue";
-import {useNotificationStore, userConfigStore} from "../../stores";
-import {getCleanObject} from "../../composables/utilities";
-import DatePicker from "../../components/forms/DatePicker.vue";
-import "@vuepic/vue-datepicker/dist/main.css";
-import TravelsApi from "../../api/travels";
-import Select from "../../components/forms/Select.vue";
+import { shallowRef, onMounted, ref, watch, onBeforeMount } from "vue"
+import { useRoute, useRouter, onBeforeRouteUpdate } from "vue-router"
+import { ArrowPathIcon, XMarkIcon, PlusIcon } from "@heroicons/vue/24/outline"
+import type { GridColumn } from "../../models/gridColumn"
+import ToursAPI from "../../api/tours"
+import PagingGrid from "../../components/PagingGrid.vue"
+import Search from "../../components/forms/Search.vue"
+import { useNotificationStore, useConfigStore } from "../../stores"
+import { getCleanObject } from "../../composables/utilities"
+import DatePicker from "../../components/forms/DatePicker.vue"
+import TravelsApi from "../../api/travels"
+import Select from "../../components/forms/Select.vue"
+import "@vuepic/vue-datepicker/dist/main.css"
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
-const pageResult = ref<any>({});
-const items = shallowRef<Array<unknown>>([]);
-const searchParams = ref({...route.query});
-const currentPage = ref(parseInt(route.query?.page?.toString()));
+const pageResult = ref<any>({})
+const items = shallowRef<Array<unknown>>([])
+const searchParams = ref({ ...route.query })
+const currentPage = ref(parseInt(route.query?.page?.toString()))
 
-let slugs = shallowRef([]);
+let slugs = shallowRef([])
 
-const userStore = userConfigStore();
-const userRoles = userStore.roles.map((role) => role.name);
+const userRoles = useConfigStore().userRoles
 
-const notificationStore = useNotificationStore();
+const notificationStore = useNotificationStore()
 
 const columns: GridColumn[] = [
-    {name: "Id", key: "id", value:"id", type: "string", href: null},
-    {name: "Name", key: "name", type: "string", href: null},
-    {name: "Starting Date", key: "startingDate", type: "string", href: null},
-    {name: "Ending Date", key: "endingDate", type: "string", href: null},
-    {name: "Price", key: "priceWithCurrency", type: "string", href: null},
-];
+  { name: "Id", key: "id", value: "id", type: "string", href: null },
+  { name: "Name", key: "name", type: "string", href: null },
+  { name: "Starting Date", key: "startingDate", type: "string", href: null },
+  { name: "Ending Date", key: "endingDate", type: "string", href: null },
+  { name: "Price", key: "priceWithCurrency", type: "string", href: null }
+]
 
 if (userRoles.includes("editor")) {
-  columns.push({name: "", key: "", href: "/tours/", type: "view"});
+  columns.push({ name: "", key: "", href: "/tours/", type: "view" })
 }
 
-const resetFilters = () => searchParams.value = {};
+const resetFilters = () => searchParams.value = {}
 
-const hasFilters = ref(false);
+const hasFilters = ref(false)
 
 const loadTours = async () => {
-    items.value = null;
-    const { slug, priceFrom, priceTo, startingDate, endingDate } = searchParams.value;
-    if (!slug) {
-        return;
-    }
-    const { result, page, pageSize } = await ToursAPI.getTours(
-        slug as string,
-        currentPage.value,
-        10,
-        priceFrom ? parseFloat(priceFrom as string) : undefined,
-        priceTo ? parseFloat(priceTo as string) : undefined,
-        startingDate ? new Date(startingDate as string) : undefined,
-        endingDate ? new Date(endingDate as string) : undefined,
-    );
-    const tours = result.items;
-    pageResult.value = {
-        currentPage: page,
-        size: pageSize,
-        itemsOnPage: tours.length,
-        totalItems: result.totalItems,
-        totalPages: Math.ceil(result.totalItems / pageSize)
-    };
-    if (tours.length !== 0) {
-        tours.forEach((tour) => {
-            tour.priceWithCurrency = `${tour.price} ${tour.currency}`;
-        });
-        items.value = tours;
-    }
-};
+  items.value = null
+  const { slug, priceFrom, priceTo, startingDate, endingDate } = searchParams.value
+  if (!slug) {
+    return
+  }
+  const { result, page, pageSize } = await ToursAPI.getTours({
+    slug: slug as string,
+    page: currentPage.value,
+    pageSize: 10,
+    priceFrom: priceFrom ? parseFloat(priceFrom as string) : undefined,
+    priceTo: priceTo ? parseFloat(priceTo as string) : undefined,
+    startingDate: startingDate ? new Date(startingDate as string) : undefined,
+    endingDate: endingDate ? new Date(endingDate as string) : undefined
+  })
+  const tours = result.items
+  pageResult.value = {
+    currentPage: page,
+    size: pageSize,
+    itemsOnPage: tours.length,
+    totalItems: result.totalItems,
+    totalPages: Math.ceil(result.totalItems / pageSize)
+  }
+  if (tours.length !== 0) {
+    tours.forEach((tour) => {
+      tour["priceWithCurrency"] = `${tour.price} ${tour.currency}`
+    })
+    items.value = tours
+  }
+}
 
 watch(searchParams, async () => {
-    currentPage.value = 1;
-    const filters = getCleanObject(searchParams.value);
-    hasFilters.value = Object.keys(filters).length > 0;
-    await router.push({name: "tours", query: filters as Record<string, string>});
-}, {deep: true});
+  currentPage.value = 1
+  const filters = getCleanObject(searchParams.value)
+  hasFilters.value = Object.keys(filters).length > 0
+  await router.push({ name: "tours", query: filters as Record<string, string> })
+}, { deep: true })
 
 onMounted(async () => {
-    await loadTours();
-});
+  await loadTours()
+})
 
 onBeforeRouteUpdate(async (to, from, next) => {
-    currentPage.value = parseInt(to.query?.page?.toString());
-    await loadTours();
-    next();
-});
+  currentPage.value = parseInt(to.query?.page?.toString())
+  await loadTours()
+  next()
+})
 
 onBeforeMount(async () => {
-    const travels = await TravelsApi.getAll();
-    if (!travels.length) {
-        notificationStore.notifications.push({
-            type: "error",
-            description: "No travel available. Please, create a travel before listing tours",
-            timeout: 5000,
-        });
-        return;
-    }
-    slugs.value = travels.map((travel) => ({
-        id: travel.slug,
-        value: travel.slug
-    }));
-});
+  const travels = await TravelsApi.getAll()
+  if (!travels.length) {
+    notificationStore.notifications.push({
+      type: "error",
+      description: "No travel available. Please, create a travel before listing tours",
+      timeout: 5000
+    })
+    return
+  }
+  slugs.value = travels.map((travel) => ({
+    id: travel.slug,
+    value: travel.slug
+  }))
+})
 </script>

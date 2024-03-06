@@ -84,64 +84,64 @@
     </div>
 </template>
 <script setup lang="ts">
-import {onMounted} from "vue";
-import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/vue/20/solid";
-import {useRoute} from "vue-router";
+import { onMounted } from "vue"
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/20/solid"
+import { useRoute } from "vue-router"
 
-const route = useRoute();
+const route = useRoute()
 
 const props = defineProps({
-    currentPage: Number,
-    size: Number,
-    itemsOnPage: Number,
-    totalPages: Number,
-    totalItems: Number,
-    routeName: String,
-});
+  currentPage: Number,
+  size: Number,
+  itemsOnPage: Number,
+  totalPages: Number,
+  totalItems: Number,
+  routeName: String
+})
 
 onMounted(() => {
-    // save the current page in the local storage
-    localStorage.setItem("currentPage", props.currentPage.toString());
-});
+  // save the current page in the local storage
+  localStorage.setItem("currentPage", props.currentPage.toString())
+})
 
 const getLastElementNumber = ({ currentPage, size, itemsOnPage, totalPages, totalItems }) => {
-    if (currentPage === totalPages) return totalItems;
-    if (itemsOnPage < size) return itemsOnPage;
-    return (currentPage - 1) * size + size;
-};
+  if (currentPage === totalPages) return totalItems
+  if (itemsOnPage < size) return itemsOnPage
+  return (currentPage - 1) * size + size
+}
 
 const hasFivePagesLeft = ({ currentPage, totalPages }) => {
-    return totalPages - currentPage <= 4;
-};
+  return totalPages - currentPage <= 4
+}
 
 const getPaginationPages = ({ currentPage, totalPages }) => {
-    if (totalPages > 1 && totalPages <= 4) {
-        return range(1, totalPages, 1);
-    }
-    if (totalPages > 1 && hasFivePagesLeft({ currentPage, totalPages })) {
-        return range(totalPages - 4, totalPages, 1);
-    }
-    if (totalPages > 5) {
-        return range(currentPage, currentPage + 2, 1).concat(range(totalPages - 2, totalPages, 1));
-    }
-    if (totalPages === 1) {
-        return [1];
-    }
-    return range(1, totalPages, 1);
-};
+  if (totalPages > 1 && totalPages <= 4) {
+    return range(1, totalPages, 1)
+  }
+  if (totalPages > 1 && hasFivePagesLeft({ currentPage, totalPages })) {
+    return range(totalPages - 4, totalPages, 1)
+  }
+  if (totalPages > 5) {
+    return range(currentPage, currentPage + 2, 1).concat(range(totalPages - 2, totalPages, 1))
+  }
+  if (totalPages === 1) {
+    return [1]
+  }
+  return range(1, totalPages, 1)
+}
 
 const range = (start, stop, step) => {
-    return Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step);
-};
+  return Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step)
+}
 
 const getQueryParams = () => {
-    if (!route.query)
-        return {};
+  if (!route.query)
+    return {}
 
-    const result = {};
-    for (let entry of Object.entries(route.query)) {
-        result[entry[0]] = encodeURIComponent(entry[1])
-    }
-    return result;
-};
+  const result = {}
+  for (let entry of Object.entries(route.query)) {
+    result[entry[0]] = encodeURIComponent(entry[1])
+  }
+  return result
+}
 </script>

@@ -67,12 +67,12 @@
 </template>
 
 <script setup lang="ts">
-import {Disclosure, Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
-import {ArrowRightOnRectangleIcon, ArrowLeftOnRectangleIcon} from "@heroicons/vue/24/outline";
-import Avatar from "../components/Avatar.vue";
-import DynamicSidebarHamburger from "../components/DynamicSidebarHamburger.vue";
-import {useAuthStore} from "../stores";
-import Logo from "../components/Logo.vue";
+import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue"
+import { ArrowRightOnRectangleIcon, ArrowLeftOnRectangleIcon } from "@heroicons/vue/24/outline"
+import Avatar from "../components/Avatar.vue"
+import DynamicSidebarHamburger from "../components/DynamicSidebarHamburger.vue"
+import { useAuthStore } from "../stores"
+import Logo from "../components/Logo.vue"
 
-const authStore = useAuthStore();
+const authStore = useAuthStore()
 </script>

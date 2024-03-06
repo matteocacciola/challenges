@@ -7,7 +7,6 @@ import {
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { AsyncLocalStorage } from 'async_hooks';
 import { dbDataSource } from './app.datasource';
 import { UsersModule } from './users/users.module';
 import { TravelsModule } from './travels/travels.module';
@@ -37,17 +36,7 @@ import { User } from './users/users.entity';
     ToursModule,
     RolesModule,
   ],
-  providers: [
-    AppResolver,
-    AccessControlService,
-    AuthService,
-    UsersService,
-    {
-      provide: AsyncLocalStorage,
-      useValue: new AsyncLocalStorage(),
-    },
-  ],
-  exports: [AsyncLocalStorage],
+  providers: [AppResolver, AccessControlService, AuthService, UsersService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

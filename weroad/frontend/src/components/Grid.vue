@@ -128,101 +128,101 @@
     </div>
 </template>
 <script lang="ts">
-import type {GridColumn} from "../models/gridColumn";
+import type { GridColumn } from "../models/gridColumn"
 import {
-    PlusCircleIcon,
-    TrashIcon,
-    PencilSquareIcon,
-    EyeIcon,
-    ArrowTopRightOnSquareIcon
-} from "@heroicons/vue/24/outline";
+  PlusCircleIcon,
+  TrashIcon,
+  PencilSquareIcon,
+  EyeIcon,
+  ArrowTopRightOnSquareIcon
+} from "@heroicons/vue/24/outline"
 import Tooltip from "../components/Tooltip.vue"
 
 export default {
-    name: "Grid",
-    props: {
-        items: Array,
-        columns: Array<GridColumn>,
-    },
-    components: {
-      Tooltip,
-        ArrowTopRightOnSquareIcon,
-        PlusCircleIcon,
-        TrashIcon,
-        PencilSquareIcon,
-        EyeIcon
-    },
-    emits: ["add", "remove"],
-    setup(props, { emit }) {
-        const add = (event:any, item: any, column: GridColumn) => {
-            event.preventDefault();
-            if (!column.subjectTo || item[column.subjectTo.field] === column.subjectTo.value) {
-              emit("add", item);
-            }
-        };
-
-        const remove = (event:any, item: any, column: GridColumn) => {
-            event.preventDefault();
-            if (!column.subjectTo || item[column.subjectTo.field] === column.subjectTo.value) {
-              emit("remove", item);
-            }
-        };
-
-        return {
-            add,
-            remove,
-        };
-    },
-    computed: {
-        getItem() {
-            return (item: any, column: GridColumn) => {
-                if (item[column.key] == undefined)
-                    return "";
-
-                if (column.type === "string") {
-                    if (column.key.includes(".")) {
-                        const keys = column.key.split(".");
-                        return item[keys[0]][keys[1]];
-                    }
-
-                    return item[column.key];
-                }
-
-                if (column.type === "string[]") {
-                    if (column.key.includes(".")) {
-                        const keys = column.key.split(".");
-                        const obj = item[keys[0]];
-                        if (obj) {
-                            return obj.map((o:any) => {
-                                return o[keys[1]];
-                            }).join(", ");
-                        }
-                    }
-
-                    return item[column.key];
-                }
-                if (column.type === "url") {
-                    return new URL(column.href.replace("{0}", item[column.key]));
-                }
-                if (column.type === "local-url") {
-                    return column.href.replace("{0}", item[column.key]);
-                }
-                if (column.type === "edit") {
-                    return column.href + item.id;
-                }
-                return "---";
-            };
-        },
-        getValue() {
-            return (item: any, column: GridColumn) => {
-                if (column.value?.includes(".") && ["url", "local-url"].includes(column.type)) {
-                    const keys = column.value.split(".");
-                    return item[keys[0]][keys[1]] ?? "";
-                }
-
-                return item[column.value] ?? "";
-            };
-        }
+  name: "Grid",
+  props: {
+    items: Array,
+    columns: Array<GridColumn>
+  },
+  components: {
+    Tooltip,
+    ArrowTopRightOnSquareIcon,
+    PlusCircleIcon,
+    TrashIcon,
+    PencilSquareIcon,
+    EyeIcon
+  },
+  emits: ["add", "remove"],
+  setup(props, { emit }) {
+    const add = (event: any, item: any, column: GridColumn) => {
+      event.preventDefault()
+      if (!column.subjectTo || item[column.subjectTo.field] === column.subjectTo.value) {
+        emit("add", item)
+      }
     }
-};
+
+    const remove = (event: any, item: any, column: GridColumn) => {
+      event.preventDefault()
+      if (!column.subjectTo || item[column.subjectTo.field] === column.subjectTo.value) {
+        emit("remove", item)
+      }
+    }
+
+    return {
+      add,
+      remove
+    }
+  },
+  computed: {
+    getItem() {
+      return (item: any, column: GridColumn) => {
+        if (item[column.key] == undefined)
+          return ""
+
+        if (column.type === "string") {
+          if (column.key.includes(".")) {
+            const keys = column.key.split(".")
+            return item[keys[0]][keys[1]]
+          }
+
+          return item[column.key]
+        }
+
+        if (column.type === "string[]") {
+          if (column.key.includes(".")) {
+            const keys = column.key.split(".")
+            const obj = item[keys[0]]
+            if (obj) {
+              return obj.map((o: any) => {
+                return o[keys[1]]
+              }).join(", ")
+            }
+          }
+
+          return item[column.key]
+        }
+        if (column.type === "url") {
+          return new URL(column.href.replace("{0}", item[column.key]))
+        }
+        if (column.type === "local-url") {
+          return column.href.replace("{0}", item[column.key])
+        }
+        if (column.type === "edit") {
+          return column.href + item.id
+        }
+        return "---"
+      }
+    },
+    getValue() {
+      return (item: any, column: GridColumn) => {
+        if (column.value?.includes(".") && ["url", "local-url"].includes(column.type)) {
+          const keys = column.value.split(".")
+          return item[keys[0]][keys[1]] ?? ""
+        }
+
+        return item[column.value] ?? ""
+      }
+    }
+  }
+}
 </script>

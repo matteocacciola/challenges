@@ -19,7 +19,6 @@ import { AppResolver } from '../src/app.resolver';
 import { AccessControlService } from '../src/auth/access-control.service';
 import { AuthService } from '../src/auth/auth.service';
 import { UsersService } from '../src/users/users.service';
-import { AsyncLocalStorage } from 'async_hooks';
 import { AuthMiddleware } from '../src/auth/auth.middleware';
 
 @Global()
@@ -37,17 +36,7 @@ import { AuthMiddleware } from '../src/auth/auth.middleware';
     ToursModule,
     RolesModule,
   ],
-  providers: [
-    AppResolver,
-    AccessControlService,
-    AuthService,
-    UsersService,
-    {
-      provide: AsyncLocalStorage,
-      useValue: new AsyncLocalStorage(),
-    },
-  ],
-  exports: [AsyncLocalStorage],
+  providers: [AppResolver, AccessControlService, AuthService, UsersService],
 })
 export class TestModule {
   configure(consumer: MiddlewareConsumer) {

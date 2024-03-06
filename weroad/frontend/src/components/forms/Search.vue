@@ -28,23 +28,23 @@
     </div>
 </template>
 <script setup lang="ts">
-import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
+import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid"
 
-let timeoutId = null;
-const emit = defineEmits(["update:modelValue"]);
+let timeoutId = null
+const emit = defineEmits(["update:modelValue"])
 
 defineProps<{
-    modelValue: unknown
-    searchName: string
-}>();
+  modelValue: unknown
+  searchName: string
+}>()
 
 async function doSearch(event) {
-    if (timeoutId) {
-        clearTimeout(timeoutId);
-    }
+  if (timeoutId) {
+    clearTimeout(timeoutId)
+  }
 
-    timeoutId = setTimeout(() => {
-        emit("update:modelValue", (event.target as any).value)
-    }, 500);
+  timeoutId = setTimeout(() => {
+    emit("update:modelValue", (event.target as any).value)
+  }, 500)
 }
 </script>

@@ -6,8 +6,8 @@ export const systemRoutes = [
     meta: {
       requiresAuth: false,
       layout: "AuthLayout",
-      title: "Login",
-    },
+      title: "Login"
+    }
   },
   {
     path: "/forbidden",
@@ -15,8 +15,8 @@ export const systemRoutes = [
     component: () => import("../views/errors/Forbidden.vue"),
     meta: {
       requiresAuth: true,
-      title: "Forbidden",
-    },
+      title: "Forbidden"
+    }
   },
   {
     path: "/not-found",
@@ -24,8 +24,8 @@ export const systemRoutes = [
     component: () => import("../views/errors/NotFound.vue"),
     meta: {
       requiresAuth: true,
-      title: "Page not found",
-    },
+      title: "Page not found"
+    }
   },
   {
     path: "/error",
@@ -33,7 +33,7 @@ export const systemRoutes = [
     component: () => import("../views/errors/Internal.vue"),
     meta: {
       requiresAuth: true,
-      title: "Internal error",
-    },
-  },
-];
+      title: "Internal error"
+    }
+  }
+]

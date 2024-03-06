@@ -27,36 +27,40 @@
     </div>
 </template>
 <script setup lang="ts">
-import Field from "../../components/forms/Field.vue";
-import Select from "../../components/forms/Select.vue";
-import ConstantsAPI from "../../api/constants";
-import {onBeforeMount, shallowRef} from "vue";
-import {useNotificationStore} from "../../stores";
-import {useRouter} from "vue-router";
+import { onBeforeMount, shallowRef } from "vue"
+import { useRouter } from "vue-router"
+import Field from "../../components/forms/Field.vue"
+import Select from "../../components/forms/Select.vue"
+import ConstantsAPI from "../../api/constants"
+import { useNotificationStore } from "../../stores"
 
 const props = defineProps<{
-    item: Object
-    createMode: boolean
-}>();
+  item: {
+    email: string
+    password: string
+    role: string
+  }
+  createMode: boolean
+}>()
 
-const notificationStore = useNotificationStore();
-const router = useRouter();
+const notificationStore = useNotificationStore()
+const router = useRouter()
 
-let mappedRoles = shallowRef([]);
+let mappedRoles = shallowRef([])
 
 onBeforeMount(async () => {
-  const roles = await ConstantsAPI.roles();
+  const roles = await ConstantsAPI.roles()
   if (!roles.length) {
     notificationStore.notifications.push({
       type: "error",
       description: "No rorles available. Please, contact the administrator.",
-      timeout: 5000,
-    });
-    await router.push({ name: "travels" });
+      timeout: 5000
+    })
+    await router.push({ name: "travels" })
   }
   mappedRoles.value = roles.map((travel) => ({
     id: travel.name,
     value: travel.name
-  }));
-});
+  }))
+})
 </script>
