@@ -12,9 +12,6 @@ const pooledDownload = async (connect, save, downloadList, maxConcurrency) => {
         message: "connection failed",
       }
     }
-    return {
-      message: "connection failed",
-    }
   }
 
   let err = null
@@ -22,12 +19,11 @@ const pooledDownload = async (connect, save, downloadList, maxConcurrency) => {
   // download the files from downloadList, using the pool of connect and distributing the work evenly between them
   for (let i = 0; i < downloadList.length; i++) {
     try {
-      const {download} = pool[i % maxConcurrency]
+      const { download } = pool[i % pool.length]
       const result = await download(downloadList[i])
       await save(result)
     } catch (error) {
       err = error
-      break
     }
   }
 
